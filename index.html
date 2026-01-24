@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>OSAKA TRIP 2026</title>
-    <!-- 若要更換桌面圖示，請修改下方 href 的網址即可 -->
-    <link rel="apple-touch-icon" id="app-icon" href="https://i.ibb.co/tpQr2PBh/images.jpg">
+    <!-- App 圖示：Chiikawa -->
+    <link rel="apple-touch-icon" href="https://i.ibb.co/tpQr2PBh/images.jpg">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     
@@ -19,7 +19,7 @@
         .tab-content { display: none; padding-bottom: 120px; }
         .tab-content.active { display: block; }
         .nav-btn.active { color: #E91E63; border-top: 3px solid #E91E63; }
-        .transit-card { background: #EBF2FF; border-left: 6px solid #3B82F6; padding: 12px 18px; margin: 8px 0; border-radius: 12px; }
+        .transit-card { background: #EBF2FF; border-left: 6px solid #3B82F6; padding: 15px; margin: 8px 0; border-radius: 15px; }
         #guide-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: flex-end; }
         .modal-body { background: white; width: 100%; border-radius: 25px 25px 0 0; padding: 25px; max-height: 85vh; overflow-y: auto; }
         .tag-red { background: #FFF0F0; color: #D32F2F; padding: 2px 8px; border-radius: 5px; font-size: 14px; font-weight: bold; margin-top: 5px; display: inline-block; }
@@ -27,16 +27,15 @@
 </head>
 <body>
 
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b p-4">
-        <div class="flex justify-between items-center mb-4">
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b p-4 text-center">
+        <div class="flex justify-between items-center mb-4 text-left">
             <h1 class="text-xl font-black">OSAKA TRIP 2026</h1>
-            <img src="https://img.izismile.com/img/img15/20240322/640/the_adorable_world_of_chiikawa_a_deep_dive_into_japans_latest_character_obsession_640_04.jpg" class="w-10 h-10 rounded-full">
+            <img src="https://i.ibb.co/tpQr2PBh/images.jpg" class="w-10 h-10 rounded-full object-cover">
         </div>
         <div class="flex overflow-x-auto space-x-2 no-scrollbar" id="day-tabs"></div>
     </header>
 
     <main class="p-4">
-        <!-- Schedule Tab -->
         <div id="content-schedule" class="tab-content active">
             <a id="weather-link" href="#" target="_blank" class="card p-5 bg-gradient-to-r from-sky-400 to-blue-500 text-white border-none mb-6 block">
                 <div class="flex justify-between items-center mb-3"><span id="weather-city" class="font-bold text-lg">正在載入地點...</span><span class="text-xs bg-white/20 px-2 py-1 rounded">點擊看詳情</span></div>
@@ -45,30 +44,21 @@
             <div id="itinerary-list"></div>
         </div>
 
-        <!-- Tickets Tab -->
         <div id="content-tickets" class="tab-content">
             <h2 class="font-bold mb-4">我的票券</h2>
             <div id="ticket-list" class="space-y-4"></div>
-            <label class="mt-4 block bg-gray-800 text-white text-center py-4 rounded-xl font-bold">
-                <i class="fas fa-plus mr-2"></i>上傳票券照片
-                <input type="file" class="hidden" accept="image/*" onchange="uploadImage(this, 'tickets')">
-            </label>
+            <label class="mt-4 block bg-gray-800 text-white text-center py-4 rounded-xl font-bold"><i class="fas fa-plus mr-2"></i>上傳票券照片<input type="file" class="hidden" accept="image/*" onchange="uploadImage(this, 'tickets')"></label>
         </div>
 
-        <!-- Souvenirs Tab -->
         <div id="content-souvenirs" class="tab-content">
             <h2 class="font-bold mb-4">伴手禮筆記</h2>
             <div id="souvenir-list" class="grid grid-cols-2 gap-3"></div>
-            <label class="mt-4 block bg-pink-500 text-white text-center py-4 rounded-xl font-bold">
-                <i class="fas fa-camera mr-2"></i>新增照片/靈感
-                <input type="file" class="hidden" accept="image/*" onchange="uploadImage(this, 'souvenirs')">
-            </label>
+            <label class="mt-4 block bg-pink-500 text-white text-center py-4 rounded-xl font-bold"><i class="fas fa-camera mr-2"></i>新增照片/靈感<input type="file" class="hidden" accept="image/*" onchange="uploadImage(this, 'souvenirs')"></label>
         </div>
 
-        <!-- Transit Tab -->
         <div id="content-transit" class="tab-content">
-            <a href="https://maps.app.goo.gl/gjzi4PHy3W2tBmfj6" target="_blank" class="card p-6 block bg-green-600 text-white mb-4"><h3 class="font-bold">開啟 Google 自訂地圖</h3></a>
-            <a href="https://www.navitime.co.jp/zh-tw/transfer/" target="_blank" class="card p-6 block bg-blue-600 text-white"><h3 class="font-bold">Navitime 換乘查詢</h3></a>
+            <a href="https://maps.app.goo.gl/gjzi4PHy3W2tBmfj6" target="_blank" class="card p-6 block bg-green-600 text-white mb-4"><h3 class="font-bold text-center">開啟 Google 自訂地圖</h3></a>
+            <a href="https://www.navitime.co.jp/zh-tw/transfer/" target="_blank" class="card p-6 block bg-blue-600 text-white"><h3 class="font-bold text-center">Navitime 換乘查詢</h3></a>
         </div>
     </main>
 
@@ -76,11 +66,11 @@
         <div class="modal-body" onclick="event.stopPropagation()">
             <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
             <div id="modal-content" class="text-gray-600 space-y-4"></div>
-            <button onclick="closeModal()" class="w-full mt-6 bg-gray-900 text-white py-4 rounded-xl">關閉</button>
+            <button onclick="closeModal()" class="w-full mt-6 bg-gray-900 text-white py-4 rounded-xl">關閉行程單</button>
         </div>
     </div>
 
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2 pb-6 z-50">
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2 pb-6 z-50 shadow-lg">
         <button onclick="switchTab('schedule')" class="nav-btn active flex flex-col items-center"><i class="fas fa-calendar-alt text-xl"></i><span class="text-xs mt-1">行程</span></button>
         <button onclick="switchTab('tickets')" class="nav-btn flex flex-col items-center"><i class="fas fa-id-card text-xl"></i><span class="text-xs mt-1">票券</span></button>
         <button onclick="switchTab('souvenirs')" class="nav-btn flex flex-col items-center"><i class="fas fa-shopping-bag text-xl"></i><span class="text-xs mt-1">伴手禮</span></button>
@@ -89,21 +79,26 @@
 
     <script>
         const guideBook = {
-            "大阪城天守閣": { tip: "持周遊券免費。必看黃金茶室。", info: "大阪城由豐臣秀吉於1583年興建，現在看到的是重建後的博物館。" },
-            "大阪城御座船": { tip: "周遊券免費。抵達先去劃位。", info: "以純金箔打造的觀光船。繞大阪城護城河約20分鐘。" },
-            "牛たんの檸檬大阪本店": { tip: "必吃『極厚切牛舌定食』。", info: "東京新宿名店的大阪分店。選用穀物飼養牛舌，低溫熟成製作。" },
-            "LOUTRE 大阪店": { tip: "預約制，水獺近距離互動。", info: "超人氣水獺咖啡廳，可以餵食與觸摸，記得動作要輕柔。" },
-            "通天閣/四大天王/新世界商店街": { tip: "溜滑梯周遊券平日免費。", info: "建於1912年。周邊新世界區域以炸串與復古看板聞名。" },
+            "大阪城天守閣": { tip: "持周遊券免費。必看黃金茶室。", info: "大阪城由豐臣秀吉於1583年興建，現在看到的是重建後的博物館。8樓有展望台。" },
+            "大阪城御座船": { tip: "周遊券免費。抵達先去劃位。", info: "以純金箔打造的觀光船。繞大阪城護城河約20分鐘，能近距離看石垣。" },
+            "牛たんの檸檬大阪本店": { tip: "必吃『極厚切牛舌定食』。", info: "東京新宿名店的大阪分店。選用穀物飼養牛舌，低溫熟成製作，口感極佳。" },
+            "LOUTRE 大阪店": { tip: "預約制，水獺近距離互動。", info: "超人氣水獺咖啡廳，可以餵食與觸摸，記得動作要輕柔小心。" },
+            "通天閣/四大天王/新世界商店街": { tip: "溜滑梯周遊券平日免費。", info: "建於1912年。周邊新世界區域以炸串與復古看板聞名，非常有大阪味。" },
             "HARUKAS 阿倍野展望台": { tip: "看夜景首選，300公尺高。", info: "日本第一高樓，擁有360度透明玻璃牆可俯瞰關西地區。" },
-            "勝尾寺": { tip: "求勝運。買達摩御守。", info: "以達摩聞名的寺廟。信徒會買達摩寫下願望後留在寺內。" },
-            "大鳥大社": { tip: "必買限量的『透明御守』。", info: "和泉國一之宮。透明御守象徵開運與勝利，在社群媒體極紅。" },
-            "有馬溫泉(有馬案内所)": { tip: "金之湯、銀之湯。買碳酸煎餅。", info: "日本三大古泉。金泉富含鐵質，銀泉為碳酸泉。" },
-            "麵包超人": { tip: "必買造型麵包。", info: "神戶人氣景點，可以看表演、買限定周邊並吃超萌麵包。" },
-            "今昔館": { tip: "江戶街道，室內不怕雨。", info: "1:1 重現江戶時代大阪街道，有便宜的浴衣體驗。" },
-            "天神筋商店街": { tip: "全日本最長。買中村屋可樂餅。", info: "全長 2.6 公里。集結上百家商店、餐廳與老店。" },
-            "天滿宮": { tip: "求學業、求考試合格必去。", info: "供奉學問之神菅原道真。是大阪重要的文化信仰中心。" },
-            "玄品 大阪 梅田東通": { tip: "必吃河豚火鍋粥，需預約。", info: "連鎖河豚專家，虎河豚刺身與火鍋非常道地。" },
-            "富田林寺內町": { tip: "江戶老街。適合散策拍照。", info: "大阪府內唯一保存完好的重要傳統建築物群保護區。" }
+            "勝尾寺": { tip: "求勝運。買達摩御守。", info: "以達摩聞名的寺廟。信徒會買達摩寫下願望後留在寺內，非常壯觀。" },
+            "大鳥大社": { tip: "必買限量的『透明御守』。", info: "和泉國一之宮。透明御守象徵開運與勝利，在社群媒體極紅，建議早點去。" },
+            "有馬溫泉(有馬案内所)": { tip: "金之湯、銀之湯。買碳酸煎餅。", info: "日本三大古泉。金泉富含鐵質，銀泉為碳酸泉，對肌肉痠痛有效。" },
+            "麵包超人": { tip: "必買造型麵包。", info: "神戶人氣景點，可以看表演、買限定周邊並吃超萌麵包，就在港邊。" },
+            "今昔館": { tip: "江戶街道，室內不怕雨。", info: "1:1 重現江戶時代大阪街道，有便宜的浴衣體驗，天花板會變天色。" },
+            "天神筋商店街": { tip: "全日本最長。買中村屋可樂餅。", info: "全長 2.6 公里。集結上百家商店、餐廳與老店，生活感十足。" },
+            "天滿宮": { tip: "求學業、求考試合格必去。", info: "供奉學問之神菅原道真。是大阪重要的文化信仰中心，每年舉辦天神祭。" },
+            "玄品 大阪 梅田東通": { tip: "必吃河豚火鍋粥，需預約。", info: "連鎖河豚專家，虎河豚刺身與火鍋非常道地，最後的雜炊是靈魂。" },
+            "富田林寺內町": { tip: "江戶老街。適合散策拍照。", info: "大阪府內唯一保存完好的重要傳統建築物群保護區，氛圍寧靜。" },
+            "大瀑布": { tip: "箕面大瀧，必吃炸楓葉。", info: "明治之森箕面國定公園的中心，高33公尺，是日本百選瀑布之一。" },
+            "瀧安寺": { tip: "日本最古老的辯才天財神廟。", info: "相傳是開運發源地，也是箕面著名的賞楓景點，環境清幽。" },
+            "KITTE大阪": { tip: "梅田新地標，好逛好買。", info: "舊大阪中央郵局改建，集結日本各地特色名產與排隊美食。" },
+            "4F 豊亨 吃飯": { tip: "精緻料理，適合晚餐。", info: "位於 KITTE 大阪內的高品質餐廳，提供日式料理與極佳氛圍。" },
+            "客美多咖啡 堺鳳店": { tip: "點咖啡送吐司，名古屋早餐。", info: "日本連鎖咖啡廳，環境舒適，厚片吐司是招牌。" }
         };
 
         const weatherData = {
@@ -113,6 +108,24 @@
             4: { city: "神戶/有馬", temps: [3, 8, 7, 4, 2], icon: "fa-snowflake" },
             5: { city: "堺市/富田林", temps: [6, 12, 11, 8, 6], icon: "fa-sun" },
             6: { city: "大阪 (市區)", temps: [8, 14, 13, 10, 8], icon: "fa-sun" }
+        };
+
+        // 交通摘要資料庫：提供精確轉乘建議
+        const transitDetails = {
+            "大阪新阪急酒店別館->大阪城天守閣": "谷町線 (往八尾南) | 東梅田站月台 1 | 3 站 | 抵達天滿橋站 | 全程約 15 分",
+            "大阪城逛逛->牛たんの檸檬大阪本店": "地鐵中央線 (往コスモスクエア) | 轉御堂筋線 | 本町站轉乘 | 全程約 25 分",
+            "牛たんの檸檬大阪本店->LOUTRE 大阪店": "御堂筋線 (往心齋橋/難波) | 心齋橋站下車 | 步行 5 分",
+            "LOUTRE 大阪店->通天閣/四大天王/新世界商店街": "御堂筋線 | 心齋橋站月台 1 | 2 站 | 動物園前站下車 | 步行 8 分",
+            "通天閣/四大天王/新世界商店街->HARUKAS 阿倍野展望台": "步行至天王寺站方向 | 或地鐵搭乘 1 站 | 約 10 分",
+            "大阪新阪急酒店別館->勝尾寺": "御堂筋線 (往箕面萱野) | 終點站下車 | 月台 1 | 車程 30 分 | 再轉搭計程車 15 分",
+            "勝尾寺->大瀑布": "山區步行步道 | 下坡路段 | 享受芬多精 | 約 20-25 分",
+            "箕面車站吃飯->梅田阪急逛街": "阪急箕面線至石橋阪大前 | 轉寶塚本線 (往大阪梅田) | 全程約 35 分",
+            "大阪新阪急酒店別館->有馬溫泉(有馬案内所)": "阪急高速巴士梅田站 | 月台 1 | 直達巴士 | 全程約 60 分",
+            "離開有馬->麵包超人": "神戶電鐵 (往谷上) | 轉北神線至新神戶 | 轉地下鐵西神山手線 | 全程約 50 分",
+            "大阪新阪急酒店別館->早餐：客美多咖啡 堺鳳店": "JR 大阪站月台 1 (關空快速) | 7 站 | 鳳站下車 | 步行 5 分 | 全程約 45 分",
+            "富田林寺內町->梅田": "近鐵長野線至河內松原 | 轉急行往阿部野橋 | 轉御堂筋線往北 | 全程約 50 分",
+            "大阪新阪急酒店別館->Cafe Sunshine": "地鐵谷町線 | 東梅田站月台 1 | 步行至 7 號出口 | 約 10 分",
+            "今昔館->天神筋商店街": "電梯下樓即抵達 | 沿商店街步行 5-10 分"
         };
 
         const itinerary = {
@@ -224,17 +237,26 @@
                 if (idx < items.length - 1 && item.type !== 'flight') {
                     const next = items[idx + 1];
                     let link = `https://www.google.com/maps/dir/${item.title}/${next.title}/`;
-                    let text = `導航往 ${next.title.substring(0,6)}`;
+                    
+                    const routeKey = `${item.title}->${next.title}`;
+                    let summaryText = transitDetails[routeKey] || `導航往 ${next.title.substring(0,8)}`;
                     
                     // 利木津專屬邏輯
-                    const isLimousine = item.title.includes("利木津") || next.title.includes("利木津");
-                    if (isLimousine) {
+                    const isLimousineStep = (currentDay === 1 && idx >= 4) || (currentDay === 6 && idx >= 4);
+                    if (isLimousineStep && (item.title.includes("利木津") || next.title.includes("利木津"))) {
                         link = "https://www.kate.co.jp/tcn/timetable/detail/UM";
-                        text = "點此查看利木津巴士時刻表 (新阪急發車)";
+                        summaryText = "利木津巴士：直達關西機場/梅田 (點此查看時刻表)";
                     }
 
                     list.innerHTML += `<a href="${link}" target="_blank" class="transit-card block">
-                        <div class="flex justify-between items-center"><span class="text-sm font-bold"><i class="fas fa-train mr-2 text-blue-500"></i>${text}</span><i class="fas fa-chevron-right text-blue-300"></i></div>
+                        <div class="flex justify-between items-start text-blue-800">
+                            <i class="fas fa-subway mt-1 mr-3"></i>
+                            <div class="flex-1">
+                                <p class="text-sm font-black leading-tight">${summaryText}</p>
+                                <p class="text-[10px] opacity-70 mt-1 uppercase tracking-widest">Tap to open google map</p>
+                            </div>
+                            <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
+                        </div>
                     </a>`;
                 }
             });
@@ -258,13 +280,12 @@
             if(tabId === 'tickets' || tabId === 'souvenirs') renderGallery(tabId);
         }
 
-        // --- 照片上傳與相簿管理功能 (恢復) ---
         function uploadImage(input, type) {
             const file = input.files[0];
             if (!file) return;
             const reader = new FileReader();
             reader.onload = function(e) {
-                const name = prompt("請命名這張照片 (例如：大阪周遊券、炸楓葉)：", "未命名");
+                const name = prompt("請命名這張照片 (例如：大阪周遊券、炸楓葉)：", "未命名筆記");
                 if (name === null) return;
                 const data = { id: Date.now(), src: e.target.result, name: name };
                 let items = JSON.parse(localStorage.getItem(type) || "[]");
