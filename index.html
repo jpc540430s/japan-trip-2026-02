@@ -4,231 +4,277 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>大阪之旅 2026</title>
-    <!-- App 圖示設定 -->
-    <link rel="apple-touch-icon" href="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=200&h=200&fit=crop">
+    <!-- App 圖示：吉伊卡哇 -->
+    <link rel="apple-touch-icon" href="https://i.imgur.com/vHq4e1A.jpeg">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
-        :root { --jp-red: #BC002D; --jp-bg: #FDFCF8; }
-        body { font-family: 'Noto Sans JP', sans-serif; background-color: var(--jp-bg); color: #2D2D2D; font-size: 18px; }
-        .card { background: white; border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 16px; overflow: hidden; border: 1px solid #F0EFEA; }
-        .time-badge { background: #8C6454; color: white; padding: 2px 10px; border-radius: 8px; font-size: 14px; font-weight: bold; }
-        .tab-content { display: none; padding-bottom: 100px; }
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        :root { --jp-red: #D93535; --jp-bg: #FFFFFF; }
+        body { font-family: 'Noto Sans JP', sans-serif; background-color: #F9FAFB; color: #1A1A1A; font-size: 20px; }
+        .card { background: white; border-radius: 20px; box-shadow: 0 2px 15px rgba(0,0,0,0.04); margin-bottom: 12px; border: 1px solid #EEF0F2; transition: all 0.2s; }
+        .card:active { transform: scale(0.98); background: #FAFAFA; }
+        .time-badge { background: #333; color: white; padding: 4px 12px; border-radius: 10px; font-size: 16px; font-weight: 700; }
+        .tab-content { display: none; padding-bottom: 120px; animation: fadeIn 0.3s ease; }
         .tab-content.active { display: block; }
-        .nav-btn.active { color: var(--jp-red); border-top: 3px solid var(--jp-red); }
-        .transport-card { background: #F0F4F8; border-left: 6px solid #4A90E2; padding: 12px; font-size: 15px; }
-        .weather-hourly { display: none; }
-        .expanded .weather-hourly { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .nav-btn.active { color: var(--jp-red); }
+        .transit-link { background: #EDF2FF; border-left: 8px solid #4C6EF5; color: #1C7ED6; font-size: 16px; padding: 12px 20px; border-radius: 15px; margin: 8px 0; display: block; }
+        .weather-row { border-right: 1px solid #EEE; padding: 0 10px; }
+        .weather-row:last-child { border: none; }
+        /* Modal Style */
+        #guide-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 1000; align-items: flex-end; }
+        .modal-body { background: white; width: 100%; border-radius: 30px 30px 0 0; padding: 30px; max-height: 80vh; overflow-y: auto; }
     </style>
 </head>
 <body>
 
     <!-- Header & Day Switcher -->
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b p-4 shadow-sm">
+    <header class="sticky top-0 z-50 bg-white border-b p-4 shadow-sm">
         <div class="flex justify-between items-center mb-4">
-            <h1 class="text-2xl font-bold text-stone-800">2026 大阪・神戶</h1>
-            <div id="current-temp" class="text-sm font-bold text-orange-600">8°C 晴天</div>
+            <h1 class="text-2xl font-black tracking-tighter">OSAKA 2026</h1>
+            <div class="bg-red-50 text-red-600 text-xs px-2 py-1 rounded-full font-bold">AIRASIA TPE-KIX</div>
         </div>
-        <div class="flex overflow-x-auto space-x-4 no-scrollbar pb-2" id="day-tabs">
-            <!-- JS 動態生成 -->
-        </div>
+        <div class="flex overflow-x-auto space-x-3 no-scrollbar" id="day-tabs"></div>
     </header>
 
-    <!-- Main Content -->
     <main class="p-4">
         
         <!-- TAB 1: 行程 (Schedule) -->
         <div id="content-schedule" class="tab-content active">
-            <!-- 天氣 Widget -->
-            <div class="card p-4 bg-gradient-to-br from-blue-50 to-white" onclick="this.classList.toggle('expanded')">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <p class="text-sm text-blue-600 font-bold">當日天氣 (點擊看每小時)</p>
-                        <p class="text-xl font-bold" id="target-city">大阪市</p>
-                    </div>
-                    <i class="fas fa-sun text-3xl text-yellow-400"></i>
+            <!-- 天氣 Widget (直連 Weathernews 中文翻譯) -->
+            <a href="https://translate.google.com/translate?sl=ja&tl=zh-TW&u=https://weathernews.jp/onebox/34.69/135.50/" target="_blank" class="card block p-5 bg-gradient-to-r from-blue-500 to-blue-400 text-white border-none mb-6">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="font-bold">今日天氣預報 (點擊查看詳細)</span>
+                    <i class="fas fa-external-link-alt text-sm"></i>
                 </div>
-                <div class="weather-hourly mt-4 flex space-x-4 overflow-x-auto text-center text-sm border-t pt-2">
-                    <div><p>09:00</p><i class="fas fa-sun"></i><p>8°</p></div>
-                    <div><p>12:00</p><i class="fas fa-sun"></i><p>12°</p></div>
-                    <div><p>15:00</p><i class="fas fa-cloud-sun"></i><p>11°</p></div>
-                    <div><p>18:00</p><i class="fas fa-moon"></i><p>7°</p></div>
-                    <div><p>21:00</p><i class="fas fa-moon"></i><p>5°</p></div>
+                <div class="flex justify-between text-center overflow-x-auto">
+                    <div class="weather-row"><p class="text-xs opacity-80">08:00</p><i class="fas fa-sun my-1"></i><p class="font-bold">8°</p></div>
+                    <div class="weather-row"><p class="text-xs opacity-80">12:00</p><i class="fas fa-sun my-1"></i><p class="font-bold">13°</p></div>
+                    <div class="weather-row"><p class="text-xs opacity-80">15:00</p><i class="fas fa-cloud-sun my-1"></i><p class="font-bold">12°</p></div>
+                    <div class="weather-row"><p class="text-xs opacity-80">18:00</p><i class="fas fa-moon my-1"></i><p class="font-bold">9°</p></div>
+                    <div class="weather-row"><p class="text-xs opacity-80">21:00</p><i class="fas fa-moon my-1"></i><p class="font-bold">7°</p></div>
                 </div>
-            </div>
+            </a>
 
             <!-- 行程卡片容器 -->
             <div id="itinerary-list"></div>
         </div>
 
-        <!-- TAB 2: 票券 (Tickets) -->
+        <!-- TAB 2: 票券 -->
         <div id="content-tickets" class="tab-content">
-            <h2 class="text-xl font-bold mb-4">我的票券</h2>
-            <div id="ticket-list" class="grid grid-cols-1 gap-4"></div>
-            <label class="mt-6 block bg-stone-800 text-white text-center py-4 rounded-xl cursor-pointer">
-                <i class="fas fa-plus mr-2"></i>上傳票券照片
+            <h2 class="text-2xl font-bold mb-6">我的票券</h2>
+            <div id="ticket-list" class="space-y-4"></div>
+            <label class="mt-6 block bg-stone-900 text-white text-center py-5 rounded-2xl font-bold cursor-pointer">
+                <i class="fas fa-plus mr-2"></i>拍照存票券
                 <input type="file" class="hidden" accept="image/*" onchange="uploadImage(this, 'tickets')">
             </label>
         </div>
 
-        <!-- TAB 3: 伴手禮 (Souvenirs) -->
+        <!-- TAB 3: 伴手禮 -->
         <div id="content-souvenirs" class="tab-content">
-            <h2 class="text-xl font-bold mb-4">伴手禮備忘錄</h2>
-            <div id="souvenir-list" class="grid grid-cols-2 gap-4"></div>
-            <label class="mt-6 block bg-stone-800 text-white text-center py-4 rounded-xl cursor-pointer">
-                <i class="fas fa-camera mr-2"></i>新增伴手禮照片
+            <h2 class="text-2xl font-bold mb-6">伴手禮筆記</h2>
+            <div id="souvenir-list" class="grid grid-cols-2 gap-3"></div>
+            <label class="mt-6 block bg-pink-600 text-white text-center py-5 rounded-2xl font-bold cursor-pointer">
+                <i class="fas fa-camera mr-2"></i>拍下想買的東西
                 <input type="file" class="hidden" accept="image/*" onchange="uploadImage(this, 'souvenirs')">
             </label>
         </div>
 
-        <!-- TAB 4: 交通 (Transit) -->
+        <!-- TAB 4: 交通 (Navitime) -->
         <div id="content-transit" class="tab-content">
-            <div class="card p-4">
-                <h2 class="font-bold mb-2">快速導覽地圖</h2>
-                <a href="https://maps.app.goo.gl/gjzi4PHy3W2tBmfj6" class="text-blue-500 underline text-sm">點我打開 Google Maps 自訂地圖</a>
+            <div class="card p-6 mb-6 bg-blue-600 text-white">
+                <h2 class="text-xl font-bold mb-2">日本交通換乘建議</h2>
+                <p class="text-sm opacity-90 mb-4">由 Navitime 提供繁體中文查詢服務</p>
+                <a href="https://www.navitime.co.jp/zh-tw/transfer/" target="_blank" class="block bg-white text-blue-600 text-center py-4 rounded-xl font-bold">前往 Navitime 查詢</a>
             </div>
-            <div class="card p-4">
-                <h2 class="font-bold mb-4">日本交通換乘查詢</h2>
-                <div class="space-y-3">
-                    <input type="text" id="start-node" placeholder="起點 (例如: 梅田)" class="w-full border p-3 rounded-lg text-sm">
-                    <input type="text" id="end-node" placeholder="終點 (例如: 箕面)" class="w-full border p-3 rounded-lg text-sm">
-                    <button onclick="searchTransit()" class="w-full bg-blue-600 text-white py-3 rounded-lg">Google 路線查詢</button>
-                    <button onclick="window.open('https://www.jorudan.co.jp/english/','_blank')" class="w-full border border-blue-600 text-blue-600 py-3 rounded-lg">乘換案內 (Jorudan)</button>
-                </div>
+            <div class="card p-6">
+                <h3 class="font-bold mb-4">常用地圖連結</h3>
+                <a href="https://maps.app.goo.gl/gjzi4PHy3W2tBmfj6" target="_blank" class="flex items-center text-blue-500 py-3 border-b border-gray-100">
+                    <i class="fas fa-map-marked-alt mr-3"></i> 我的自訂地圖連結
+                </a>
             </div>
         </div>
 
     </main>
 
-    <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2 pb-6 z-50">
-        <button onclick="switchTab('schedule')" class="nav-btn active flex flex-col items-center pt-2">
-            <i class="fas fa-calendar-day text-xl"></i><span class="text-[10px] mt-1">行程</span>
-        </button>
-        <button onclick="switchTab('tickets')" class="nav-btn flex flex-col items-center pt-2">
-            <i class="fas fa-ticket-alt text-xl"></i><span class="text-[10px] mt-1">票券</span>
-        </button>
-        <button onclick="switchTab('souvenirs')" class="nav-btn flex flex-col items-center pt-2">
-            <i class="fas fa-gift text-xl"></i><span class="text-[10px] mt-1">伴手禮</span>
-        </button>
-        <button onclick="switchTab('transit')" class="nav-btn flex flex-col items-center pt-2">
-            <i class="fas fa-subway text-xl"></i><span class="text-[10px] mt-1">交通</span>
-        </button>
+    <!-- Modal for Guides -->
+    <div id="guide-modal" onclick="closeModal()">
+        <div class="modal-body" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-start mb-4">
+                <h2 id="modal-title" class="text-2xl font-black"></h2>
+                <button onclick="closeModal()" class="text-gray-400 text-2xl"><i class="fas fa-times"></i></button>
+            </div>
+            <div id="modal-content" class="text-lg leading-relaxed text-gray-700"></div>
+            <button onclick="closeModal()" class="w-full mt-8 bg-stone-900 text-white py-4 rounded-xl font-bold">返回行程</button>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-3 pb-8 z-50">
+        <button onclick="switchTab('schedule')" class="nav-btn active flex flex-col items-center"><i class="fas fa-calendar-alt text-2xl"></i><span class="text-xs mt-1">行程</span></button>
+        <button onclick="switchTab('tickets')" class="nav-btn flex flex-col items-center"><i class="fas fa-id-card text-2xl"></i><span class="text-xs mt-1">票券</span></button>
+        <button onclick="switchTab('souvenirs')" class="nav-btn flex flex-col items-center"><i class="fas fa-shopping-bag text-2xl"></i><span class="text-xs mt-1">伴手禮</span></button>
+        <button onclick="switchTab('transit')" class="nav-btn flex flex-col items-center"><i class="fas fa-route text-2xl"></i><span class="text-xs mt-1">交通</span></button>
     </nav>
 
     <script>
-        // --- 資料設定 ---
+        // --- 景點攻略資料 ---
+        const guideData = {
+            "大阪城天守閣": "必看：2樓的武將試穿體驗。8樓展望台俯瞰大阪市。持周遊券直接掃碼入場。",
+            "大阪城御座船": "黃金船身極度華麗。**攻略：**抵達大阪城後先去乘船處兌換乘船券，因為熱門時段很快會滿。",
+            "牛たんの檸檬大阪本店": "必點：**極厚切牛舌定食**。搭配檸檬汁與店家特製蔥鹽是絕配。位於地下一樓。",
+            "LOUTRE 大阪店": "水獺咖啡廳。必看：水獺餵食秀。需注意不能大聲尖叫以免嚇到牠們。",
+            "通天閣/四大天王": "必玩：塔頂的高空溜滑梯。必吃：周邊的元祖炸串。持周遊券平日溜滑梯免費。",
+            "HARUKAS 阿倍野展望台": "日本第一高樓。必看：58樓的天空花園。廁所也是透明景觀，必拍。",
+            "勝尾寺": "滿山遍野的達摩。**攻略：**買一個小達摩籤詩，看過後可以留在寺內各個角落。求勝運必去。",
+            "大鳥大社": "必買：**透明御守 (一期一會)**。這是全日本唯一能看到背後風景的御守，非常精緻。",
+            "有馬溫泉": "日本最古老溫泉。必試：金之湯(含鐵鹽)、銀之湯(二氧化碳泉)。必喝：有馬汽水。",
+            "玄品 大阪 梅田東通": "必點：**天樂套餐**。包含河豚刺身、炸河豚、河豚火鍋，最後剩下的湯頭煮成粥是靈魂。",
+            "今昔館": "重現江戶時代的大阪街景。攻略：裡面有平價浴衣租借，拍照首選地點。"
+        };
+
         const itineraryData = {
             1: [
-                { time: "11:00", type: "move", title: "出門", desc: "前往桃園機場" },
-                { time: "12:30", type: "spot", title: "桃園機場 T1", desc: "準備 Check-in" },
-                { time: "15:40", type: "transport", title: "搭機 (CX/JX/CI...)", desc: "飛行時間約 2.5 小時" },
-                { time: "19:20", type: "spot", title: "關西機場", desc: "入境與提領行李" },
-                { time: "20:20", type: "transport", title: "搭乘利木津巴士", desc: "費用：約 ¥1,600 / 時間：60分", map: "https://www.google.com/maps/dir/Kansai+Airport/Hotel+New+Hankyu+Osaka+Annex" },
-                { time: "21:20", type: "hotel", title: "新阪急酒店別館 Check-in", desc: "飯店休息" }
+                { time: "11:00", title: "出門", type: "move" },
+                { time: "12:30", title: "桃園機場 T1 Airasia", type: "spot", desc: "辦理報到手續" },
+                { time: "15:40", title: "TPE 起飛", type: "flight" },
+                { time: "19:20", title: "KIX 降落", type: "flight" },
+                { time: "20:20", title: "搭利木津巴士", type: "bus" },
+                { time: "21:20", title: "Check in 大阪新阪急酒店別館", type: "hotel" }
             ],
             2: [
-                { time: "09:15", type: "spot", title: "大阪城天守閣", desc: "必看：黃金茶室、8樓展望台。攻略：周遊券免費。" },
-                { time: "00:00", type: "transport", title: "步行 10 分鐘", desc: "往御座船搭乘處", map: "https://www.google.com/maps/dir/Osaka+Castle/Osaka+Castle+Gozabune" },
-                { time: "10:00", type: "spot", title: "大阪城御座船", desc: "需先去劃位，周遊券免費。" },
-                { time: "12:30", type: "food", title: "牛たんの檸檬 大阪本店", desc: "必吃：極厚切牛舌定食。需預約。", tag: "必吃美食" },
-                { time: "14:00", type: "spot", title: "LOUTRE 大阪店 (水獺咖啡廳)", desc: "預約制，與水獺近距離接觸。" },
-                { time: "15:00", type: "spot", title: "通天閣/新世界", desc: "必看：溜滑梯、展望台。攻略：晚上點燈後最漂亮。" },
-                { time: "17:00", type: "spot", title: "HARUKAS 阿倍野展望台", desc: "看日落與夜景最佳點。攻略：B1可換周遊券折扣。" }
+                { time: "08:30", title: "出門", type: "move" },
+                { time: "09:15", title: "大阪城天守閣", type: "spot" },
+                { time: "10:00", title: "大阪城御座船", type: "spot" },
+                { time: "10:30", title: "大阪城逛逛", type: "spot" },
+                { time: "12:30", title: "牛たんの檸檬大阪本店", type: "food" },
+                { time: "14:00", title: "LOUTRE 大阪店", type: "spot" },
+                { time: "15:00", title: "通天閣/四大天王/新世界商店街", type: "spot" },
+                { time: "17:00", title: "HARUKAS 阿倍野展望台", type: "spot" },
+                { time: "17:30", title: "備案：大阪高島屋", type: "spot" },
+                { time: "21:00", title: "回飯店：新阪急別館", type: "hotel" }
             ],
             3: [
-                { time: "08:00", type: "move", title: "出門", desc: "往梅田站出發" },
-                { time: "00:00", type: "transport", title: "御堂筋線 -> 北大阪急行", desc: "梅田站至箕面萱野站 (約30分)", map: "https://www.google.com/maps/dir/Umeda+Station/Minoh-kayano+Station" },
-                { time: "08:45", type: "spot", title: "勝尾寺", desc: "攻略：滿山達摩，求勝運必去。必買：達摩御守。", tag: "必買伴手禮" },
-                { time: "10:45", type: "spot", title: "箕面大瀑布", desc: "沿著森林步道散步，感受芬多精。" },
-                { time: "13:00", type: "food", title: "箕面車站周邊午餐", desc: "必吃：炸楓葉(もみじの天ぷら)", tag: "必吃特色" },
-                { time: "16:00", type: "spot", title: "吉伊卡哇LAND / KITTE大阪", desc: "購物時間。" }
+                { time: "08:00", title: "出門", type: "move" },
+                { time: "08:45", title: "勝尾寺", type: "spot" },
+                { time: "10:45", title: "大瀑布", type: "spot" },
+                { time: "11:30", title: "瀧安寺", type: "spot" },
+                { time: "13:00", title: "炸楓葉、足湯、案内所", type: "food" },
+                { time: "13:30", title: "箕面車站吃飯", type: "food" },
+                { time: "15:00", title: "梅田阪急逛街", type: "spot" },
+                { time: "16:00", title: "吉伊卡哇LAND 大阪梅田店", type: "spot" },
+                { time: "17:00", title: "KITTE大阪", type: "spot" },
+                { time: "18:00", title: "4F 豊亨 吃飯", type: "food" },
+                { time: "21:00", title: "回飯店：新阪急別館", type: "hotel" }
             ],
             4: [
-                { time: "08:30", type: "move", title: "出門", desc: "往有馬溫泉出發" },
-                { time: "00:00", type: "transport", title: "阪急巴士 / 地鐵", desc: "直達巴士約 60 分 (¥1,400)", map: "https://www.google.com/maps/dir/Umeda/Arima+Onsen" },
-                { time: "10:00", type: "spot", title: "有馬溫泉", desc: "攻略：金之湯、銀之湯。必買：碳酸煎餅。" },
-                { time: "15:00", type: "spot", title: "神戶麵包超人館", desc: "必點：造型麵包。" },
-                { time: "18:00", type: "spot", title: "神戶臨海樂園 umie", desc: "夜景與晚餐。" }
+                { time: "08:30", title: "出門", type: "move" },
+                { time: "10:00", title: "有馬溫泉(有馬案内所)", type: "spot" },
+                { time: "12:00", title: "有馬午餐", type: "food" },
+                { time: "14:00", title: "離開有馬", type: "move" },
+                { time: "15:00", title: "麵包超人", type: "spot" },
+                { time: "18:00", title: "神戶臨海樂園 umie", type: "spot" },
+                { time: "20:00", title: "回飯店：新阪急別館", type: "hotel" }
             ],
             5: [
-                { time: "07:23", type: "move", title: "早起出門", desc: "往堺市方向" },
-                { time: "08:10", type: "food", title: "客美多咖啡 堺鳳店", desc: "名古屋式早餐。" },
-                { time: "09:00", type: "spot", title: "大鳥大社", desc: "必買：全日本瘋搶的「透明御守」。", tag: "必買攻略" },
-                { time: "11:00", type: "spot", title: "富田林寺內町", desc: "江戶老街散策。" },
-                { time: "19:00", type: "food", title: "玄品河豚 梅田東通", desc: "必吃：河豚套餐。", tag: "必吃美食" }
+                { time: "07:23", title: "出門", type: "move" },
+                { time: "08:10", title: "客美多咖啡 堺鳳店", type: "food" },
+                { time: "09:00", title: "堺市 大鳥大社：透明御守", type: "spot" },
+                { time: "11:00", title: "富田林寺內町", type: "spot" },
+                { time: "12:00", title: "麺坊七福 寺内町店", type: "food" },
+                { time: "16:30", title: "梅田逛街", type: "spot" },
+                { time: "19:00", title: "玄品 大阪 梅田東通", type: "food" },
+                { time: "21:00", title: "回飯店：新阪急別館", type: "hotel" }
             ],
             6: [
-                { time: "08:00", type: "food", title: "Cafe Sunshine", desc: "復古喫茶店厚鬆餅。" },
-                { time: "09:00", type: "spot", title: "大阪今昔館", desc: "體驗江戶大阪街道。" },
-                { time: "10:00", type: "spot", title: "天神橋筋商店街", desc: "全日最長商店街。" },
-                { time: "16:00", type: "transport", title: "利木津巴士", desc: "往機場出發" },
-                { time: "20:45", type: "move", title: "起飛", desc: "期待下次旅行" }
+                { time: "08:00", title: "Cafe Sunshine", type: "food" },
+                { time: "09:00", title: "今昔館", type: "spot" },
+                { time: "10:00", title: "天神筋商店街", type: "spot" },
+                { time: "11:00", title: "天滿宮", type: "spot" },
+                { time: "12:00", title: "午餐時間", type: "food" },
+                { time: "16:00", title: "搭利木津巴士", type: "bus" },
+                { time: "17:00", title: "關西機場", type: "spot" },
+                { time: "20:45", title: "KIX 起飛", type: "flight" }
             ]
         };
 
-        const days = ["2/17(一)", "2/18(二)", "2/19(三)", "2/20(四)", "2/21(五)", "2/22(六)"];
+        const days = ["2/17(二)", "2/18(三)", "2/19(四)", "2/20(五)", "2/21(六)", "2/22(日)"];
         let currentDay = 1;
 
-        // --- 功能核心 ---
-
-        function renderTabs() {
+        function renderDayTabs() {
             const container = document.getElementById('day-tabs');
-            days.forEach((day, index) => {
+            days.forEach((day, i) => {
                 const btn = document.createElement('button');
-                btn.className = `tab-btn px-6 py-2 whitespace-nowrap rounded-full border ${index+1 === currentDay ? 'bg-stone-800 text-white' : 'bg-white text-stone-600'}`;
+                btn.className = `px-6 py-2 whitespace-nowrap rounded-full border-2 font-bold ${i+1 === currentDay ? 'bg-red-500 border-red-500 text-white' : 'bg-white border-gray-100 text-gray-500'}`;
                 btn.innerText = day;
-                btn.onclick = () => { currentDay = index + 1; updateItinerary(); };
+                btn.onclick = () => { currentDay = i+1; updateUI(); };
                 container.appendChild(btn);
             });
         }
 
-        function updateItinerary() {
-            // 更新按鈕樣式
-            document.querySelectorAll('.tab-btn').forEach((btn, i) => {
-                btn.className = `tab-btn px-6 py-2 whitespace-nowrap rounded-full border ${i+1 === currentDay ? 'bg-stone-800 text-white' : 'bg-white text-stone-600'}`;
+        function updateUI() {
+            document.querySelectorAll('#day-tabs button').forEach((b, i) => {
+                b.className = `px-6 py-2 whitespace-nowrap rounded-full border-2 font-bold ${i+1 === currentDay ? 'bg-red-500 border-red-500 text-white' : 'bg-white border-gray-100 text-gray-500'}`;
             });
 
             const list = document.getElementById('itinerary-list');
             list.innerHTML = "";
             const dayData = itineraryData[currentDay];
 
-            dayData.forEach(item => {
-                let cardHtml = "";
-                if (item.type === 'transport') {
-                    cardHtml = `
-                        <div class="transport-card rounded-xl mb-4" onclick="window.open('${item.map || '#'}')">
-                            <div class="flex justify-between items-center">
-                                <p><i class="fas fa-train mr-2"></i><strong>交通：${item.title}</strong></p>
-                                <i class="fas fa-chevron-right text-gray-400"></i>
-                            </div>
-                            <p class="text-sm mt-1 text-blue-800">${item.desc}</p>
+            dayData.forEach((item, index) => {
+                // 1. 生成行程小卡
+                const icon = item.type === 'food' ? 'utensils' : item.type === 'spot' ? 'camera' : item.type === 'hotel' ? 'hotel' : 'clock';
+                const color = item.type === 'food' ? 'text-orange-500' : item.type === 'spot' ? 'text-blue-500' : 'text-gray-400';
+                
+                let card = `
+                    <div class="card p-5" onclick="openGuide('${item.title}')">
+                        <div class="flex items-center gap-3">
+                            <span class="time-badge">${item.time}</span>
+                            <i class="fas fa-${icon} ${color}"></i>
+                            <h3 class="font-bold flex-1">${item.title}</h3>
+                            ${guideData[item.title] ? '<i class="fas fa-info-circle text-gray-300"></i>' : ''}
                         </div>
-                    `;
-                } else {
-                    const icon = item.type === 'food' ? 'utensils' : item.type === 'spot' ? 'camera' : 'clock';
-                    const color = item.type === 'food' ? 'text-orange-500' : item.type === 'spot' ? 'text-teal-600' : 'text-stone-400';
-                    cardHtml = `
-                        <div class="card p-4">
-                            <div class="flex items-center gap-3 mb-2">
-                                <span class="time-badge">${item.time}</span>
-                                <i class="fas fa-${icon} ${color}"></i>
-                                <h3 class="font-bold text-lg">${item.title}</h3>
-                            </div>
-                            <p class="text-base text-stone-600 leading-relaxed">${item.desc}</p>
-                            ${item.tag ? `<span class="inline-block mt-2 bg-red-100 text-red-600 text-xs px-2 py-1 rounded font-bold">${item.tag}</span>` : ""}
-                        </div>
-                    `;
+                    </div>
+                `;
+                list.innerHTML += card;
+
+                // 2. 生成自動交通小卡 (如果不是最後一個項目且不是飛機)
+                if (index < dayData.length - 1 && item.type !== 'flight') {
+                    const nextItem = dayData[index+1];
+                    if (nextItem.type !== 'flight') {
+                        let transitUrl = `https://www.google.com/maps/dir/${item.title}/${nextItem.title}/`;
+                        let transitText = `導航：從 ${item.title.substring(0,4)} 前往 ${nextItem.title.substring(0,4)}`;
+                        
+                        // 利木津巴士特別處理
+                        if (nextItem.type === 'bus') {
+                            transitUrl = "https://www.kate.co.jp/tcn/timetable/detail/UM";
+                            transitText = "查看利木津巴士時刻表 (新阪急發車)";
+                        }
+
+                        list.innerHTML += `<a href="${transitUrl}" target="_blank" class="transit-link"><i class="fas fa-arrow-down mr-2"></i> ${transitText}</a>`;
+                    }
                 }
-                list.innerHTML += cardHtml;
             });
-            document.getElementById('target-city').innerText = currentDay === 4 ? "神戶市" : currentDay === 5 ? "堺市" : "大阪市";
         }
 
+        // --- 彈窗功能 ---
+        function openGuide(title) {
+            const guide = guideData[title];
+            if (!guide) return;
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-content').innerHTML = guide.replace(/\*\*(.*?)\*\*/g, '<b class="text-red-600">$1</b>');
+            document.getElementById('guide-modal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('guide-modal').style.display = 'none';
+        }
+
+        // --- 其他工具功能 ---
         function switchTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -237,65 +283,52 @@
             window.scrollTo(0,0);
         }
 
-        // --- 照片上傳與儲存 (LocalStorage) ---
-
         function uploadImage(input, type) {
             const file = input.files[0];
             if (!file) return;
-
             const reader = new FileReader();
             reader.onload = function(e) {
-                const name = prompt("請輸入照片名稱/說明：", "我的照片");
+                const name = prompt("請命名這張照片：", "我的筆記");
                 if (name === null) return;
-
                 const data = { id: Date.now(), src: e.target.result, name: name };
                 let items = JSON.parse(localStorage.getItem(type) || "[]");
                 items.push(data);
                 localStorage.setItem(type, JSON.stringify(items));
-                loadSavedItems(type);
+                renderGallery(type);
             };
             reader.readAsDataURL(file);
         }
 
-        function loadSavedItems(type) {
+        function renderGallery(type) {
             const container = document.getElementById(type === 'tickets' ? 'ticket-list' : 'souvenir-list');
             container.innerHTML = "";
             let items = JSON.parse(localStorage.getItem(type) || "[]");
-            
             items.forEach(item => {
                 const div = document.createElement('div');
-                div.className = "card relative";
+                div.className = "card overflow-hidden bg-white shadow-lg";
                 div.innerHTML = `
                     <img src="${item.src}" class="w-full h-48 object-cover">
-                    <div class="p-2 flex justify-between items-center">
-                        <p class="text-sm font-bold truncate">${item.name}</p>
-                        <button onclick="deleteItem('${type}', ${item.id})" class="text-red-400 text-xs">刪除</button>
+                    <div class="p-4 flex justify-between items-center bg-white">
+                        <p class="font-bold truncate text-sm">${item.name}</p>
+                        <button onclick="deleteImg('${type}', ${item.id})" class="text-red-500 font-bold"><i class="fas fa-trash"></i></button>
                     </div>
                 `;
                 container.appendChild(div);
             });
         }
 
-        function deleteItem(type, id) {
-            if(!confirm("確定要刪除這張照片嗎？")) return;
-            let items = JSON.parse(localStorage.getItem(type) || "[]");
-            items = items.filter(i => i.id !== id);
+        function deleteImg(type, id) {
+            if(!confirm("確定刪除？")) return;
+            let items = JSON.parse(localStorage.getItem(type) || "[]").filter(i => i.id !== id);
             localStorage.setItem(type, JSON.stringify(items));
-            loadSavedItems(type);
-        }
-
-        function searchTransit() {
-            const start = document.getElementById('start-node').value;
-            const end = document.getElementById('end-node').value;
-            if(!start || !end) { alert("請輸入起點和終點"); return; }
-            window.open(`https://www.google.com/maps/dir/${start}/${end}/`);
+            renderGallery(type);
         }
 
         // 初始化
-        renderTabs();
-        updateItinerary();
-        loadSavedItems('tickets');
-        loadSavedItems('souvenirs');
+        renderDayTabs();
+        updateUI();
+        renderGallery('tickets');
+        renderGallery('souvenirs');
     </script>
 </body>
 </html>
