@@ -19,14 +19,15 @@
         .nav-btn.active { color: #E91E63; border-top: 3px solid #E91E63; }
         .transit-card { background: #EBF2FF; border-left: 6px solid #3B82F6; padding: 15px; margin: 8px 0; border-radius: 15px; }
         #guide-modal, #album-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: flex-end; }
+        #image-viewer { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
         .modal-body { background: white; width: 100%; border-radius: 25px 25px 0 0; padding: 25px; max-height: 90vh; overflow-y: auto; }
         .tag-red { background: #FFF0F0; color: #D32F2F; padding: 2px 8px; border-radius: 5px; font-size: 14px; font-weight: bold; margin-top: 5px; display: inline-block; }
     </style>
 </head>
 <body>
 
-    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b p-4">
-        <div class="flex justify-between items-center mb-4">
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b p-4 text-center">
+        <div class="flex justify-between items-center mb-4 text-left">
             <h1 class="text-xl font-black">OSAKA TRIP 2026</h1>
             <img src="https://i.ibb.co/tpQr2PBh/images.jpg" class="w-10 h-10 rounded-full object-cover">
         </div>
@@ -34,7 +35,6 @@
     </header>
 
     <main class="p-4">
-        <!-- 行程 Tab -->
         <div id="content-schedule" class="tab-content active">
             <a id="weather-link" href="#" target="_blank" class="card p-5 bg-gradient-to-r from-sky-400 to-blue-500 text-white border-none mb-6 block">
                 <div class="flex justify-between items-center mb-3"><span id="weather-city" class="font-bold text-lg">正在載入地點...</span><span class="text-xs bg-white/20 px-2 py-1 rounded">點擊看詳情</span></div>
@@ -43,14 +43,12 @@
             <div id="itinerary-list"></div>
         </div>
 
-        <!-- 票券 Tab -->
         <div id="content-tickets" class="tab-content">
-            <h2 class="font-bold mb-4">我的票券</h2>
+            <h2 class="font-bold mb-4">我的票券 (點擊圖片放大)</h2>
             <div id="ticket-list" class="space-y-4"></div>
-            <label class="mt-4 block bg-gray-800 text-white text-center py-4 rounded-xl font-bold"><i class="fas fa-plus mr-2"></i>上傳票券<input type="file" class="hidden" accept="image/*" onchange="uploadTicket(this)"></label>
+            <label class="mt-4 block bg-gray-800 text-white text-center py-4 rounded-xl font-bold"><i class="fas fa-plus mr-2"></i>上傳票券照片<input type="file" class="hidden" accept="image/*" onchange="uploadTicket(this)"></label>
         </div>
 
-        <!-- 伴手禮相簿 Tab -->
         <div id="content-souvenirs" class="tab-content">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="font-bold">伴手禮相簿</h2>
@@ -59,14 +57,13 @@
             <div id="album-grid" class="grid grid-cols-2 gap-4"></div>
         </div>
 
-        <!-- 交通 Tab -->
         <div id="content-transit" class="tab-content">
             <a href="https://maps.app.goo.gl/gjzi4PHy3W2tBmfj6" target="_blank" class="card p-6 block bg-green-600 text-white mb-4 text-center font-bold">開啟 Google 自訂地圖</a>
             <a href="https://www.navitime.co.jp/zh-tw/transfer/" target="_blank" class="card p-6 block bg-blue-600 text-white text-center font-bold">Navitime 換乘查詢</a>
         </div>
     </main>
 
-    <!-- 景點介紹 Modal -->
+    <!-- 景點 Modal -->
     <div id="guide-modal" onclick="closeModal()">
         <div class="modal-body" onclick="event.stopPropagation()">
             <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
@@ -90,8 +87,13 @@
         </div>
     </div>
 
-    <!-- Bottom Nav -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2 pb-6 z-50">
+    <!-- 全螢幕大圖查看器 (新增) -->
+    <div id="image-viewer" onclick="closeViewer()">
+        <img id="full-image" src="" class="max-w-full max-h-full object-contain">
+        <button class="absolute top-8 right-8 text-white text-4xl">&times;</button>
+    </div>
+
+    <nav class="fixed bottom-0 left-0 right-0 bg-white border-t flex justify-around p-2 pb-6 z-50 shadow-lg">
         <button onclick="switchTab('schedule')" class="nav-btn active flex flex-col items-center"><i class="fas fa-calendar-alt text-xl"></i><span class="text-xs mt-1">行程</span></button>
         <button onclick="switchTab('tickets')" class="nav-btn flex flex-col items-center"><i class="fas fa-id-card text-xl"></i><span class="text-xs mt-1">票券</span></button>
         <button onclick="switchTab('souvenirs')" class="nav-btn flex flex-col items-center"><i class="fas fa-shopping-bag text-xl"></i><span class="text-xs mt-1">伴手禮</span></button>
@@ -99,7 +101,7 @@
     </nav>
 
     <script>
-        // 交通資料庫：精補月台與建議班次
+        // 交通資料庫維持
         const transitDetails = {
             "大阪新阪急酒店別館->大阪城天守閣": "地鐵谷町線 (往八尾南) | 東梅田站月台 1 | 建議 08:45 班次 | 3 站 | 天滿橋站下車 | 約 15 分",
             "大阪城逛逛->牛たんの檸檬大阪本店": "地鐵中央線 (往コスモスクエア) | 谷町四丁目站月台 2 | 2 站 | 本町站轉御堂筋線月台 1 | 全程約 25 分",
@@ -142,210 +144,127 @@
             2: [ { time: "08:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "09:15", title: "大阪城天守閣", type: "spot" }, { time: "10:00", title: "大阪城御座船", type: "spot" }, { time: "10:30", title: "大阪城逛逛", type: "spot" }, { time: "12:30", title: "牛たんの檸檬大阪本店", type: "food" }, { time: "14:00", title: "LOUTRE 大阪店", type: "spot" }, { time: "15:00", title: "通天閣/四大天王/新世界商店街", type: "spot" }, { time: "17:00", title: "HARUKAS 阿倍野展望台", type: "spot" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
             3: [ { time: "08:00", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:45", title: "勝尾寺", type: "spot" }, { time: "10:45", title: "大瀑布", type: "spot" }, { time: "11:30", title: "瀧安寺", type: "spot" }, { time: "13:00", title: "炸楓葉、足湯、案内所", type: "food" }, { time: "13:30", title: "箕面車站吃飯", type: "food" }, { time: "15:00", title: "梅田阪急逛街", type: "spot" }, { time: "16:00", title: "吉伊卡哇LAND 大阪梅田店", type: "spot" }, { time: "18:00", title: "4F 豊亨 吃飯", type: "food" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
             4: [ { time: "08:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "10:00", title: "有馬溫泉(有馬案内所)", type: "spot" }, { time: "12:00", title: "有馬午餐", type: "food" }, { time: "15:00", title: "麵包超人", type: "spot" }, { time: "18:00", title: "神戶臨海樂園 umie", type: "spot" }, { time: "20:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
-            5: [ { time: "07:23", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:10", title: "早餐：客美多咖啡 堺鳳店", type: "food" }, { time: "09:00", title: "堺市 大鳥大社：透明御守", type: "spot" }, { time: "11:00", title: "富田林寺內町", type: "spot" }, { time: "19:00", title: "玄品 大阪 梅田東通", type: "food" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
+            5: [ { time: "07:23", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:10", title: "早餐：客美多咖啡 堺鳳店", type: "food" }, { time: "09:00", title: "堺市 大鳥大社：透明御守", type: "spot" }, { time: "11:00", title: "富田林寺內町", type: "spot" }, { time: "12:00", title: "麺坊七福 寺内町店", type: "food" }, { time: "16:30", title: "梅田", type: "spot" }, { time: "19:00", title: "玄品 大阪 梅田東通", type: "food" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
             6: [ { time: "08:00", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:15", title: "Cafe Sunshine", type: "food" }, { time: "09:00", title: "今昔館", type: "spot" }, { time: "10:00", title: "天神筋商店街", type: "spot" }, { time: "11:00", title: "天滿宮", type: "spot" }, { time: "16:00", title: "大阪新阪急酒店別館離開搭利木津巴士", type: "bus" }, { time: "17:00", title: "關西機場", type: "spot" }, { time: "20:45", title: "KIX 起飛", type: "flight" } ]
         };
 
         let currentDay = 1;
 
+        // 大圖查看功能 (新增)
+        function viewImage(src) {
+            document.getElementById('full-image').src = src;
+            document.getElementById('image-viewer').style.display = 'flex';
+        }
+        function closeViewer() {
+            document.getElementById('image-viewer').style.display = 'none';
+        }
+
         function updateUI() {
             const tabs = ["2/17(二)", "2/18(三)", "2/19(四)", "2/20(五)", "2/21(六)", "2/22(日)"];
-            const container = document.getElementById('day-tabs');
-            container.innerHTML = "";
+            const container = document.getElementById('day-tabs'); container.innerHTML = "";
             tabs.forEach((day, i) => {
                 const btn = document.createElement('button');
                 btn.className = `px-5 py-2 whitespace-nowrap rounded-full border-2 font-bold ${i+1 === currentDay ? 'bg-black text-white' : 'bg-white text-gray-500'}`;
-                btn.innerText = day;
-                btn.onclick = () => { currentDay = i + 1; updateUI(); };
-                container.appendChild(btn);
+                btn.innerText = day; btn.onclick = () => { currentDay = i + 1; updateUI(); }; container.appendChild(btn);
             });
 
             const w = weatherData[currentDay];
             document.getElementById('weather-city').innerText = w.city;
             document.getElementById('weather-link').href = "https://translate.google.com/translate?sl=ja&tl=zh-TW&u=https://weathernews.jp/onebox/34.69/135.50/";
-            const grid = document.getElementById('weather-grid');
-            grid.innerHTML = "";
+            const grid = document.getElementById('weather-grid'); grid.innerHTML = "";
             const hours = ["08:00", "12:00", "15:00", "18:00", "21:00"];
-            w.temps.forEach((t, i) => {
-                grid.innerHTML += `<div class="px-2"><p class="text-[10px] opacity-70">${hours[i]}</p><i class="fas ${w.icon} my-1"></i><p class="font-bold text-sm">${t}°</p></div>`;
-            });
+            w.temps.forEach((t, i) => { grid.innerHTML += `<div class="px-2"><p class="text-[10px] opacity-70">${hours[i]}</p><i class="fas ${w.icon} my-1"></i><p class="font-bold text-sm">${t}°</p></div>`; });
 
-            const list = document.getElementById('itinerary-list');
-            list.innerHTML = "";
+            const list = document.getElementById('itinerary-list'); list.innerHTML = "";
             const items = itinerary[currentDay];
             items.forEach((item, idx) => {
                 const guide = guideBook[item.title];
                 list.innerHTML += `<div class="card p-5" onclick="openModal('${item.title}')">
-                    <div class="flex items-center gap-3">
-                        <span class="time-badge">${item.time}</span>
-                        <h3 class="font-bold text-lg">${item.title}</h3>
-                    </div>
+                    <div class="flex items-center gap-3"><span class="time-badge">${item.time}</span><h3 class="font-bold text-lg">${item.title}</h3></div>
                     ${guide ? `<p class="tag-red"><i class="fas fa-lightbulb mr-1"></i> ${guide.tip}</p>` : ''}
                 </div>`;
 
                 if (idx < items.length - 1 && item.type !== 'flight') {
-                    const next = items[idx + 1];
-                    let link = `https://www.google.com/maps/dir/${item.title}/${next.title}/`;
-                    const routeKey = `${item.title}->${next.title}`;
-                    let summary = transitDetails[routeKey] || `導航往 ${next.title.substring(0,8)}`;
-                    
+                    const next = items[idx + 1]; let link = `https://www.google.com/maps/dir/${item.title}/${next.title}/`;
+                    const routeKey = `${item.title}->${next.title}`; let summary = transitDetails[routeKey] || `導航往 ${next.title.substring(0,8)}`;
                     if ((currentDay === 1 && idx >= 4) || (currentDay === 6 && idx >= 4)) {
-                        link = "https://www.kate.co.jp/tcn/timetable/detail/UM";
-                        summary = "利木津巴士：直達關西機場/梅田 (點此查看時刻表)";
+                        link = "https://www.kate.co.jp/tcn/timetable/detail/UM"; summary = "利木津巴士：直達關西機場/梅田 (點此查看時刻表)";
                     }
-
                     list.innerHTML += `<a href="${link}" target="_blank" class="transit-card block">
-                        <div class="flex justify-between items-start text-blue-800">
-                            <i class="fas fa-subway mt-1 mr-3 text-lg"></i>
-                            <div class="flex-1">
-                                <p class="text-sm font-black leading-tight">${summary}</p>
-                                <p class="text-[10px] opacity-70 mt-1">TAP TO NAVIGATE</p>
-                            </div>
-                            <i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i>
-                        </div>
+                        <div class="flex justify-between items-start text-blue-800"><i class="fas fa-subway mt-1 mr-3 text-lg"></i><div class="flex-1"><p class="text-sm font-black leading-tight">${summary}</p></div><i class="fas fa-external-link-alt text-xs ml-2 opacity-50"></i></div>
                     </a>`;
                 }
             });
         }
 
-        // --- 伴手禮相簿邏輯 ---
         let currentAlbumId = null;
-
         function createAlbum() {
-            const name = prompt("請輸入新相簿項目名稱 (例如：吉伊卡哇藥妝店、零食筆記)：");
-            if (!name) return;
+            const name = prompt("請輸入新相簿名稱："); if (!name) return;
             let albums = JSON.parse(localStorage.getItem('albums') || "[]");
-            const newAlbum = { id: Date.now(), name: name, photos: [] };
-            albums.push(newAlbum);
-            localStorage.setItem('albums', JSON.stringify(albums));
-            renderAlbumGrid();
+            albums.push({ id: Date.now(), name: name, photos: [] });
+            localStorage.setItem('albums', JSON.stringify(albums)); renderAlbumGrid();
         }
-
         function renderAlbumGrid() {
-            const grid = document.getElementById('album-grid');
-            grid.innerHTML = "";
+            const grid = document.getElementById('album-grid'); grid.innerHTML = "";
             let albums = JSON.parse(localStorage.getItem('albums') || "[]");
             albums.forEach(album => {
                 const cover = album.photos.length > 0 ? album.photos[0].src : 'https://placehold.co/200x200?text=Empty';
-                grid.innerHTML += `
-                    <div class="card relative" onclick="openAlbum(${album.id})">
-                        <img src="${cover}" class="w-full h-32 object-cover">
-                        <div class="p-2 bg-white text-xs font-bold truncate">${album.name} (${album.photos.length})</div>
-                        <button onclick="deleteAlbum(event, ${album.id})" class="absolute top-1 right-1 bg-black/50 text-white w-6 h-6 rounded-full text-xs">×</button>
-                    </div>`;
+                grid.innerHTML += `<div class="card relative" onclick="openAlbum(${album.id})"><img src="${cover}" class="w-full h-32 object-cover"><div class="p-2 bg-white text-xs font-bold truncate">${album.name} (${album.photos.length})</div><button onclick="deleteAlbum(event, ${album.id})" class="absolute top-1 right-1 bg-black/50 text-white w-6 h-6 rounded-full text-xs">×</button></div>`;
             });
         }
-
         function openAlbum(id) {
-            currentAlbumId = id;
-            let albums = JSON.parse(localStorage.getItem('albums'));
-            const album = albums.find(a => a.id === id);
-            document.getElementById('current-album-name').innerText = album.name;
-            renderAlbumPhotos();
-            document.getElementById('album-modal').style.display = 'flex';
+            currentAlbumId = id; let albums = JSON.parse(localStorage.getItem('albums')); const album = albums.find(a => a.id === id);
+            document.getElementById('current-album-name').innerText = album.name; renderAlbumPhotos(); document.getElementById('album-modal').style.display = 'flex';
         }
-
         function renderAlbumPhotos() {
-            const container = document.getElementById('album-photos');
-            container.innerHTML = "";
-            let albums = JSON.parse(localStorage.getItem('albums'));
-            const album = albums.find(a => a.id === currentAlbumId);
+            const container = document.getElementById('album-photos'); container.innerHTML = "";
+            let albums = JSON.parse(localStorage.getItem('albums')); const album = albums.find(a => a.id === currentAlbumId);
             album.photos.forEach((photo, idx) => {
-                container.innerHTML += `
-                    <div class="card bg-white">
-                        <img src="${photo.src}" class="w-full h-40 object-cover">
-                        <div class="p-2 flex justify-between items-center text-xs">
-                            <span class="truncate font-bold">${photo.name}</span>
-                            <button onclick="deletePhoto(${idx})" class="text-red-500"><i class="fas fa-trash"></i></button>
-                        </div>
-                    </div>`;
+                container.innerHTML += `<div class="card bg-white"><img src="${photo.src}" class="w-full h-40 object-cover" onclick="viewImage('${photo.src}')"><div class="p-2 flex justify-between items-center text-xs"><span class="truncate font-bold">${photo.name}</span><button onclick="deletePhoto(${idx})" class="text-red-500"><i class="fas fa-trash"></i></button></div></div>`;
             });
         }
-
         document.getElementById('album-photo-input').onchange = function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const photoName = prompt("請命名這張照片：", "商品名稱");
-                if (!photoName) return;
-                let albums = JSON.parse(localStorage.getItem('albums'));
-                const album = albums.find(a => a.id === currentAlbumId);
-                album.photos.push({ src: event.target.result, name: photoName });
-                localStorage.setItem('albums', JSON.stringify(albums));
-                renderAlbumPhotos();
-                renderAlbumGrid();
-            };
-            reader.readAsDataURL(file);
+            const file = e.target.files[0]; if (!file) return;
+            const reader = new FileReader(); reader.onload = function(event) {
+                const photoName = prompt("請命名這張照片："); if (!photoName) return;
+                let albums = JSON.parse(localStorage.getItem('albums')); const album = albums.find(a => a.id === currentAlbumId);
+                album.photos.push({ src: event.target.result, name: photoName }); localStorage.setItem('albums', JSON.stringify(albums)); renderAlbumPhotos(); renderAlbumGrid();
+            }; reader.readAsDataURL(file);
         };
-
         function closeAlbum() { document.getElementById('album-modal').style.display = 'none'; }
-        
-        function deleteAlbum(e, id) {
-            e.stopPropagation();
-            if(!confirm("確定刪除整個相簿項目？")) return;
-            let albums = JSON.parse(localStorage.getItem('albums')).filter(a => a.id !== id);
-            localStorage.setItem('albums', JSON.stringify(albums));
-            renderAlbumGrid();
-        }
+        function deleteAlbum(e, id) { e.stopPropagation(); if(!confirm("確定刪除？")) return; let albums = JSON.parse(localStorage.getItem('albums')).filter(a => a.id !== id); localStorage.setItem('albums', JSON.stringify(albums)); renderAlbumGrid(); }
+        function deletePhoto(idx) { if(!confirm("確定刪除？")) return; let albums = JSON.parse(localStorage.getItem('albums')); const album = albums.find(a => a.id === currentAlbumId); album.photos.splice(idx, 1); localStorage.setItem('albums', JSON.stringify(albums)); renderAlbumPhotos(); renderAlbumGrid(); }
 
-        function deletePhoto(idx) {
-            if(!confirm("確定刪除照片？")) return;
-            let albums = JSON.parse(localStorage.getItem('albums'));
-            const album = albums.find(a => a.id === currentAlbumId);
-            album.photos.splice(idx, 1);
-            localStorage.setItem('albums', JSON.stringify(albums));
-            renderAlbumPhotos();
-            renderAlbumGrid();
-        }
-
-        // --- 其他工具 ---
         function switchTab(id) {
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('content-' + id).classList.add('active');
-            event.currentTarget.classList.add('active');
-            if(id === 'souvenirs') renderAlbumGrid();
+            document.getElementById('content-' + id).classList.add('active'); event.currentTarget.classList.add('active');
+            if(id === 'souvenirs') renderAlbumGrid(); if(id === 'tickets') renderTickets();
         }
-        function openModal(t) {
-            const g = guideBook[t]; if(!g) return;
-            document.getElementById('modal-title').innerText = t;
-            document.getElementById('modal-content').innerHTML = `<p>${g.info}</p>`;
-            document.getElementById('guide-modal').style.display = 'flex';
-        }
+        function openModal(t) { const g = guideBook[t]; if(!g) return; document.getElementById('modal-title').innerText = t; document.getElementById('modal-content').innerHTML = `<p>${g.info}</p>`; document.getElementById('guide-modal').style.display = 'flex'; }
         function closeModal() { document.getElementById('guide-modal').style.display = 'none'; }
         
-        // 票券邏輯維持
         function uploadTicket(input) {
             const file = input.files[0]; if(!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
+            const reader = new FileReader(); reader.onload = function(e) {
                 const name = prompt("命名票券："); if(!name) return;
                 let t = JSON.parse(localStorage.getItem('tickets') || "[]");
-                t.push({ id: Date.now(), src: e.target.result, name: name });
-                localStorage.setItem('tickets', JSON.stringify(t));
-                renderTickets();
-            };
-            reader.readAsDataURL(file);
+                t.push({ id: Date.now(), src: e.target.result, name: name }); localStorage.setItem('tickets', JSON.stringify(t)); renderTickets();
+            }; reader.readAsDataURL(file);
         }
         function renderTickets() {
             const list = document.getElementById('ticket-list'); list.innerHTML = "";
             let t = JSON.parse(localStorage.getItem('tickets') || "[]");
             t.forEach(tk => {
                 list.innerHTML += `<div class="card p-3 flex gap-3 items-center">
-                    <img src="${tk.src}" class="w-16 h-16 object-cover rounded">
-                    <span class="flex-1 font-bold">${tk.name}</span>
-                    <button onclick="deleteTicket(${tk.id})" class="text-red-500">×</button>
+                    <img src="${tk.src}" class="w-16 h-16 object-cover rounded cursor-pointer" onclick="viewImage('${tk.src}')">
+                    <span class="flex-1 font-bold">${tk.name}</span><button onclick="deleteTicket(${tk.id})" class="text-red-500">×</button>
                 </div>`;
             });
         }
-        function deleteTicket(id) {
-            let t = JSON.parse(localStorage.getItem('tickets')).filter(tk => tk.id !== id);
-            localStorage.setItem('tickets', JSON.stringify(t)); renderTickets();
-        }
+        function deleteTicket(id) { let t = JSON.parse(localStorage.getItem('tickets')).filter(tk => tk.id !== id); localStorage.setItem('tickets', JSON.stringify(t)); renderTickets(); }
 
-        updateUI();
-        renderTickets();
+        updateUI(); renderTickets();
     </script>
 </body>
 </html>
