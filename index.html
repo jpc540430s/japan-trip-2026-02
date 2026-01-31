@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -63,7 +63,6 @@
         </div>
     </main>
 
-    <!-- 景點 Modal -->
     <div id="guide-modal" onclick="closeModal()">
         <div class="modal-body" onclick="event.stopPropagation()">
             <h2 id="modal-title" class="text-2xl font-bold mb-4"></h2>
@@ -72,7 +71,6 @@
         </div>
     </div>
 
-    <!-- 相簿內部 Modal -->
     <div id="album-modal" class="fixed inset-0 bg-black z-[1001] hidden flex-col">
         <div class="p-4 bg-white flex justify-between items-center border-b">
             <h2 id="current-album-name" class="font-bold">相簿名稱</h2>
@@ -80,14 +78,10 @@
         </div>
         <div id="album-photos" class="flex-1 overflow-y-auto p-4 grid grid-cols-2 gap-3 bg-gray-50"></div>
         <div class="p-4 bg-white border-t">
-            <label class="block bg-pink-500 text-white text-center py-4 rounded-xl font-bold cursor-pointer">
-                + 新增照片至此相簿
-                <input type="file" class="hidden" accept="image/*" id="album-photo-input">
-            </label>
+            <label class="block bg-pink-500 text-white text-center py-4 rounded-xl font-bold cursor-pointer">+ 新增照片<input type="file" class="hidden" accept="image/*" id="album-photo-input"></label>
         </div>
     </div>
 
-    <!-- 全螢幕大圖查看器 (新增) -->
     <div id="image-viewer" onclick="closeViewer()">
         <img id="full-image" src="" class="max-w-full max-h-full object-contain">
         <button class="absolute top-8 right-8 text-white text-4xl">&times;</button>
@@ -101,7 +95,6 @@
     </nav>
 
     <script>
-        // 交通資料庫維持
         const transitDetails = {
             "大阪新阪急酒店別館->大阪城天守閣": "地鐵谷町線 (往八尾南) | 東梅田站月台 1 | 建議 08:45 班次 | 3 站 | 天滿橋站下車 | 約 15 分",
             "大阪城逛逛->牛たんの檸檬大阪本店": "地鐵中央線 (往コスモスクエア) | 谷町四丁目站月台 2 | 2 站 | 本町站轉御堂筋線月台 1 | 全程約 25 分",
@@ -115,19 +108,19 @@
             "離開有馬->麵包超人": "神戶電鐵有馬線 | 有馬溫泉站月台 1 | 谷上站轉北神線至新神戶 | 轉西神山手線至港區 | 全程約 50 分",
             "大阪新阪急酒店別館->早餐：客美多咖啡 堺鳳店": "JR 大阪站月台 1 (關空快速) | 建議 07:35 班次 | 7 站 | 鳳站下車 | 約 45 分",
             "堺市 大鳥大社：透明御守->富田林寺內町": "JR 鳳站往天王寺 | 近鐵阿部野橋站轉長野線 | 建議 10:20 班次 | 月台 3 | 全程 60 分",
-            "富田林寺內町->梅田": "近鐵河內松原轉急行 | 天王寺轉御堂筋線月台 2 | 全程約 50 分",
+            "富田林寺內町->梅田": "近鐵河內松原轉急行 | 天王寺站轉御堂筋線月台 2 | 全程約 50 分",
             "大阪新阪急酒店別館->Cafe Sunshine": "地鐵谷町線 | 東梅田站月台 1 | 步行 5 分即抵達 | 全程約 10 分",
             "今昔館->天神筋商店街": "電梯下至 1 樓即抵達商店街入口 | 步行 2 分"
         };
 
         const guideBook = {
-            "大阪城天守閣": { tip: "持周遊券免費。", info: "1583年興建，8樓展望台俯瞰大阪。" },
-            "牛たんの檸檬大阪本店": { tip: "必吃厚切牛舌。", info: "極軟嫩熟成牛舌，大阪最夯排隊名店。" },
+            "大阪城天守閣": { tip: "持周遊券免費。", info: "1583年興建，8樓展望台俯瞰大阪。展示豐臣家歷史。" },
+            "牛たんの檸檬大阪本店": { tip: "必吃厚切牛舌。", info: "極軟嫩熟成牛舌，目前大阪最夯排隊名店之一。" },
             "勝尾寺": { tip: "買達摩御守。", info: "1300年歷史勝運古寺，山中滿是信徒還願的達摩。" },
-            "大鳥大社": { tip: "限量透明御守。", info: "近期社群爆紅，透明設計能映照風景，開運必買。" },
-            "有馬溫泉(有馬案内所)": { tip: "金之湯銀之湯。", info: "日本三大古泉，金泉含鐵鹽對關節好。" },
-            "天神筋商店街": { tip: "日本最長商店街。", info: "全長2.6公里，集結各式關西平民美食。" },
-            "玄品 大阪 梅田東通": { tip: "必吃河豚火鍋粥。", info: "職人處理虎河豚，火鍋最後的雜炊是靈魂。" }
+            "大鳥大社": { tip: "限量透明御守。", info: "近期社群爆紅，透明設計能映照背景风景，開運必買。" },
+            "有馬溫泉(有馬案内所)": { tip: "金之湯銀之湯。", info: "日本三大古泉，金泉含鐵鹽對關節極佳。" },
+            "天神筋商店街": { tip: "日本最長商店街。", info: "全長2.6公里，集結各式在地美食與平價雜貨。" },
+            "玄品 大阪 梅田東通": { tip: "必吃河豚火鍋粥。", info: "職人處理虎河豚，最後將湯頭煮成粥是美味靈魂。" }
         };
 
         const weatherData = {
@@ -141,26 +134,19 @@
 
         const itinerary = {
             1: [ { time: "11:00", title: "出門", type: "move" }, { time: "12:30", title: "桃園機場 T1 Airasia", type: "spot" }, { time: "15:40", title: "TPE 起飛", type: "flight" }, { time: "19:20", title: "KIX 降落", type: "flight" }, { time: "20:20", title: "關西機場離開搭利木津巴士", type: "bus" }, { time: "21:20", title: "check in大阪新阪急酒店別館", type: "hotel" } ],
-            2: [ { time: "08:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "09:15", title: "大阪城天守閣", type: "spot" }, { time: "10:00", title: "大阪城御座船", type: "spot" }, { time: "10:30", title: "大阪城逛逛", type: "spot" }, { time: "12:30", title: "牛たんの檸檬大阪本店", type: "food" }, { time: "14:00", title: "LOUTRE 大阪店", type: "spot" }, { time: "15:00", title: "通天閣/四大天王/新世界商店街", type: "spot" }, { time: "17:00", title: "HARUKAS 阿倍野展望台", type: "spot" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
-            3: [ { time: "08:00", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:45", title: "勝尾寺", type: "spot" }, { time: "10:45", title: "大瀑布", type: "spot" }, { time: "11:30", title: "瀧安寺", type: "spot" }, { time: "13:00", title: "炸楓葉、足湯、案内所", type: "food" }, { time: "13:30", title: "箕面車站吃飯", type: "food" }, { time: "15:00", title: "梅田阪急逛街", type: "spot" }, { time: "16:00", title: "吉伊卡哇LAND 大阪梅田店", type: "spot" }, { time: "18:00", title: "4F 豊亨 吃飯", type: "food" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
+            2: [ { time: "08:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "09:15", title: "大阪城天守閣", type: "spot" }, { time: "10:00", title: "大阪城御座船", type: "spot" }, { time: "10:30", title: "大阪城逛逛", type: "spot" }, { time: "12:30", title: "牛たんの檸檬大阪本店", type: "food" }, { time: "14:00", title: "LOUTRE 大阪店", type: "spot" }, { time: "15:00", title: "通天閣/四大天王/新世界商店街", type: "spot" }, { time: "17:00", title: "HARUKAS 阿倍野展望台", type: "spot" }, { time: "17:30", title: "備案：大阪高島屋", type: "spot" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
+            3: [ { time: "08:00", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:45", title: "勝尾寺", type: "spot" }, { time: "10:45", title: "大瀑布", type: "spot" }, { time: "11:30", title: "瀧安寺", type: "spot" }, { time: "13:00", title: "炸楓葉、足湯、案内所", type: "food" }, { time: "13:30", title: "箕面車站吃飯", type: "food" }, { time: "15:00", title: "梅田阪急逛街", type: "spot" }, { time: "16:00", title: "吉伊卡哇LAND 大阪梅田店", type: "spot" }, { time: "17:00", title: "KITTE大阪", type: "spot" }, { time: "18:00", title: "4F 豊亨 吃飯", type: "food" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
             4: [ { time: "08:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "10:00", title: "有馬溫泉(有馬案内所)", type: "spot" }, { time: "12:00", title: "有馬午餐", type: "food" }, { time: "15:00", title: "麵包超人", type: "spot" }, { time: "18:00", title: "神戶臨海樂園 umie", type: "spot" }, { time: "20:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
-            5: [ { time: "07:23", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:10", title: "早餐：客美多咖啡 堺鳳店", type: "food" }, { time: "09:00", title: "堺市 大鳥大社：透明御守", type: "spot" }, { time: "11:00", title: "富田林寺內町", type: "spot" }, { time: "12:00", title: "麺坊七福 寺内町店", type: "food" }, { time: "16:30", title: "梅田", type: "spot" }, { time: "19:00", title: "玄品 大阪 梅田東通", type: "food" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
-            6: [ { time: "08:00", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:15", title: "Cafe Sunshine", type: "food" }, { time: "09:00", title: "今昔館", type: "spot" }, { time: "10:00", title: "天神筋商店街", type: "spot" }, { time: "11:00", title: "天滿宮", type: "spot" }, { time: "16:00", title: "大阪新阪急酒店別館離開搭利木津巴士", type: "bus" }, { time: "17:00", title: "關西機場", type: "spot" }, { time: "20:45", title: "KIX 起飛", type: "flight" } ]
+            5: [ { time: "07:23", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:10", title: "早餐：客美多咖啡 堺鳳店", type: "food" }, { time: "09:00", title: "堺市 大鳥大社：透明御守", type: "spot" }, { time: "11:00", title: "富田林寺內町", type: "spot" }, { time: "12:00", title: "麺坊七福 寺内町店|古民家カフェゆうぷく", type: "food" }, { time: "16:30", title: "梅田", type: "spot" }, { time: "19:00", title: "玄品 大阪 梅田東通", type: "food" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
+            6: [ { time: "08:00", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:15", title: "Cafe Sunshine", type: "food" }, { time: "09:00", title: "今昔館", type: "spot" }, { time: "10:00", title: "天神筋商店街", type: "spot" }, { time: "11:00", title: "天滿宮", type: "spot" }, { time: "12:00", title: "午餐", type: "food" }, { time: "16:00", title: "大阪新阪急酒店別館離開搭利木津巴士", type: "bus" }, { time: "17:00", title: "關西機場", type: "spot" }, { time: "20:45", title: "KIX 起飛", type: "flight" }, { time: "23:05", title: "降落", type: "flight" } ]
         };
 
         let currentDay = 1;
-
-        // 大圖查看功能 (新增)
-        function viewImage(src) {
-            document.getElementById('full-image').src = src;
-            document.getElementById('image-viewer').style.display = 'flex';
-        }
-        function closeViewer() {
-            document.getElementById('image-viewer').style.display = 'none';
-        }
-
+        function viewImage(s) { document.getElementById('full-image').src = s; document.getElementById('image-viewer').style.display = 'flex'; }
+        function closeViewer() { document.getElementById('image-viewer').style.display = 'none'; }
+        
         function updateUI() {
-            const tabs = ["2/17(二)", "2/18(三)", "2/19(四)", "2/20(五)", "2/21(六)", "2/22(日)"];
+            const tabs = ["2/17(一)", "2/18(二)", "2/19(三)", "2/20(四)", "2/21(五)", "2/22(六)"];
             const container = document.getElementById('day-tabs'); container.innerHTML = "";
             tabs.forEach((day, i) => {
                 const btn = document.createElement('button');
@@ -187,7 +173,7 @@
                 if (idx < items.length - 1 && item.type !== 'flight') {
                     const next = items[idx + 1]; let link = `https://www.google.com/maps/dir/${item.title}/${next.title}/`;
                     const routeKey = `${item.title}->${next.title}`; let summary = transitDetails[routeKey] || `導航往 ${next.title.substring(0,8)}`;
-                    if ((currentDay === 1 && idx >= 4) || (currentDay === 6 && idx >= 4)) {
+                    if ((currentDay === 1 && idx >= 4) || (currentDay === 6 && idx >= 6)) {
                         link = "https://www.kate.co.jp/tcn/timetable/detail/UM"; summary = "利木津巴士：直達關西機場/梅田 (點此查看時刻表)";
                     }
                     list.innerHTML += `<a href="${link}" target="_blank" class="transit-card block">
@@ -199,10 +185,9 @@
 
         let currentAlbumId = null;
         function createAlbum() {
-            const name = prompt("請輸入新相簿名稱："); if (!name) return;
+            const name = prompt("請輸入相簿名稱："); if (!name) return;
             let albums = JSON.parse(localStorage.getItem('albums') || "[]");
-            albums.push({ id: Date.now(), name: name, photos: [] });
-            localStorage.setItem('albums', JSON.stringify(albums)); renderAlbumGrid();
+            albums.push({ id: Date.now(), name: name, photos: [] }); localStorage.setItem('albums', JSON.stringify(albums)); renderAlbumGrid();
         }
         function renderAlbumGrid() {
             const grid = document.getElementById('album-grid'); grid.innerHTML = "";
@@ -226,7 +211,7 @@
         document.getElementById('album-photo-input').onchange = function(e) {
             const file = e.target.files[0]; if (!file) return;
             const reader = new FileReader(); reader.onload = function(event) {
-                const photoName = prompt("請命名這張照片："); if (!photoName) return;
+                const photoName = prompt("請命名照片："); if (!photoName) return;
                 let albums = JSON.parse(localStorage.getItem('albums')); const album = albums.find(a => a.id === currentAlbumId);
                 album.photos.push({ src: event.target.result, name: photoName }); localStorage.setItem('albums', JSON.stringify(albums)); renderAlbumPhotos(); renderAlbumGrid();
             }; reader.readAsDataURL(file);
@@ -256,10 +241,7 @@
             const list = document.getElementById('ticket-list'); list.innerHTML = "";
             let t = JSON.parse(localStorage.getItem('tickets') || "[]");
             t.forEach(tk => {
-                list.innerHTML += `<div class="card p-3 flex gap-3 items-center">
-                    <img src="${tk.src}" class="w-16 h-16 object-cover rounded cursor-pointer" onclick="viewImage('${tk.src}')">
-                    <span class="flex-1 font-bold">${tk.name}</span><button onclick="deleteTicket(${tk.id})" class="text-red-500">×</button>
-                </div>`;
+                list.innerHTML += `<div class="card p-3 flex gap-3 items-center"><img src="${tk.src}" class="w-16 h-16 object-cover rounded cursor-pointer" onclick="viewImage('${tk.src}')"><span class="flex-1 font-bold">${tk.name}</span><button onclick="deleteTicket(${tk.id})" class="text-red-500">×</button></div>`;
             });
         }
         function deleteTicket(id) { let t = JSON.parse(localStorage.getItem('tickets')).filter(tk => tk.id !== id); localStorage.setItem('tickets', JSON.stringify(t)); renderTickets(); }
