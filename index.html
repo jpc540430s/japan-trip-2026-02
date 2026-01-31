@@ -1,4 +1,4 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
@@ -96,36 +96,35 @@
 
     <script>
         const transitDetails = {
-            "大阪新阪急酒店別館->大阪城天守閣": "地鐵谷町線 (往八尾南) | 東梅田站月台 1 | 建議 08:45 班次 | 3 站 | 天滿橋站下車 | 約 15 分",
-            "大阪城逛逛->牛たんの檸檬大阪本店": "地鐵中央線 (往コスモスクエア) | 谷町四丁目站月台 2 | 2 站 | 本町站轉御堂筋線月台 1 | 全程約 25 分",
-            "牛たんの檸檬大阪本店->LOUTRE 大阪店": "心齋橋站步行區域 | 往大丸百貨方向 | 約 10 分",
-            "LOUTRE 大阪店->通天閣/四大天王/新世界商店街": "地鐵御堂筋線 (往中百舌鳥) | 心齋橋站月台 1 | 建議 14:45 班次 | 2 站 | 動物園前站下車 | 約 15 分",
-            "通天閣/四大天王/新世界商店街->HARUKAS 阿倍野展望台": "地鐵御堂筋線 | 動物園前站月台 1 | 1 站 | 天王寺站下車 | 約 8 分",
-            "大阪新阪急酒店別館->勝尾寺": "地鐵御堂筋線 (往箕面萱野) | 梅田站月台 1 | 建議 08:10 班次 | 終點站下車 | 轉計程車 15 分 | 全程 50 分",
-            "勝尾寺->大瀑布": "山區步行路徑 | 下坡為主 | 約 25 分",
-            "箕面車站吃飯->梅田阪急逛街": "阪急箕面線 | 箕面站月台 1 | 石橋阪大前轉寶塚線月台 4 | 建議 14:40 班次 | 全程約 35 分",
+            "大阪新阪急酒店別館->京都 teamlab": "JR 大阪站月台 8/9 | 乘『新快速』(往高槻/京都) | 30分抵達京都站 | 轉乘至 teamLab 植物園 | 全程約 50 分",
+            "京都 teamlab->午餐（京都車站）": "京都地下鐵或巴士返回京都車站 | 約 20 分",
+            "午餐（京都車站）->京都北野天滿宮": "京都站前巴士總站 | 乘巴士 50 / 101 號 | 建議 14:15 班次 | 全程約 35 分",
+            "京都北野天滿宮->大阪逛街": "巴士至『二条站』或『京都站』 | 轉乘 JR 新快速返回大阪梅田 | 約 60 分",
+            "大阪新阪急酒店別館->勝尾寺": "地鐵御堂筋線 (往箕面萱野) | 梅田站月台 1 | 建議 08:10 班次 | 終點站轉計程車 15 分 | 全程 50 分",
+            "勝尾寺->大瀑布": "山區步行路徑 | 下坡為主 | 享受自然空氣 | 約 25 分",
+            "箕面車站吃飯->梅田阪急逛街": "阪急箕面線至石橋阪大前 | 轉寶塚本線 (往大阪梅田) | 月台 4 | 全程約 35 分",
             "大阪新阪急酒店別館->有馬溫泉(有馬案内所)": "阪急梅田高速巴士總站 | 月台 1 | 建議預約 08:50 班次 | 直達 | 全程 60 分",
-            "離開有馬->麵包超人": "神戶電鐵有馬線 | 有馬溫泉站月台 1 | 谷上站轉北神線至新神戶 | 轉西神山手線至港區 | 全程約 50 分",
-            "大阪新阪急酒店別館->早餐：客美多咖啡 堺鳳店": "JR 大阪站月台 1 (關空快速) | 建議 07:35 班次 | 7 站 | 鳳站下車 | 約 45 分",
-            "堺市 大鳥大社：透明御守->富田林寺內町": "JR 鳳站往天王寺 | 近鐵阿部野橋站轉長野線 | 建議 10:20 班次 | 月台 3 | 全程 60 分",
-            "富田林寺內町->梅田": "近鐵河內松原轉急行 | 天王寺站轉御堂筋線月台 2 | 全程約 50 分",
-            "大阪新阪急酒店別館->Cafe Sunshine": "地鐵谷町線 | 東梅田站月台 1 | 步行 5 分即抵達 | 全程約 10 分",
-            "今昔館->天神筋商店街": "電梯下至 1 樓即抵達商店街入口 | 步行 2 分"
+            "離開有馬->麵包超人": "神戶電鐵有馬線 | 谷上站轉北神線至新神戶 | 轉地下鐵西神山手線 | 全程約 50 分",
+            "大阪新阪急酒店別館->早餐：客美多咖啡 堺鳳店": "JR 大阪站月台 1 (關空快速) | 建議 07:35 班次 | 鳳站下車 | 步行 5 分 | 全程約 45 分",
+            "堺市 大鳥大社->富田林寺內町": "JR 鳳站至天王寺 | 近鐵阿部野橋站轉長野線 | 建議 10:25 班次 | 全程 60 分",
+            "Cafe Sunshine->大阪城逛逛（梅花）": "地鐵谷町線 | 東梅田站月台 1 | 3 站至天滿橋站 | 步行 10 分 | 全程約 20 分",
+            "大阪城逛逛（梅花）->心齋橋": "地鐵長堀鶴見綠地線 | 森之宮站至心齋橋站 | 月台 1 | 全程約 15 分",
+            "Samoyed Cafe Moffu Shinsaibashi->大阪新阪急酒店別館": "地鐵御堂筋線 | 心齋橋站至梅田站 | 月台 2 | 全程約 12 分"
         };
 
         const guideBook = {
-            "大阪城天守閣": { tip: "持周遊券免費。", info: "1583年興建，8樓展望台俯瞰大阪。展示豐臣家歷史。" },
-            "牛たんの檸檬大阪本店": { tip: "必吃厚切牛舌。", info: "極軟嫩熟成牛舌，目前大阪最夯排隊名店之一。" },
-            "勝尾寺": { tip: "買達摩御守。", info: "1300年歷史勝運古寺，山中滿是信徒還願的達摩。" },
-            "大鳥大社": { tip: "限量透明御守。", info: "近期社群爆紅，透明設計能映照背景风景，開運必買。" },
-            "有馬溫泉(有馬案内所)": { tip: "金之湯銀之湯。", info: "日本三大古泉，金泉含鐵鹽對關節極佳。" },
-            "天神筋商店街": { tip: "日本最長商店街。", info: "全長2.6公里，集結各式在地美食與平價雜貨。" },
-            "玄品 大阪 梅田東通": { tip: "必吃河豚火鍋粥。", info: "職人處理虎河豚，最後將湯頭煮成粥是美味靈魂。" }
+            "京都 teamlab": { tip: "必看光影植物園。", info: "teamLab 於京都舉辦的常設或限定展覽，結合自然環境與數位藝術，非常夢幻。" },
+            "京都北野天滿宮": { tip: "賞梅名所，求學問。", info: "祭祀學問之神菅原道真。2月正是梅花盛開期，梅交軒的梅花風景極佳。" },
+            "勝尾寺": { tip: "求勝運，買達摩。", info: "1300年歷史古寺，隨處可見信徒還願的達摩，是求運勢最強地點。" },
+            "Samoyed Cafe Moffu Shinsaibashi": { tip: "超萌薩摩耶互動。", info: "心齋橋區人氣寵物咖啡廳，可以近距離與多隻大型薩摩耶犬互動、拍照。" },
+            "有馬溫泉(有馬案内所)": { tip: "金之湯銀之湯。", info: "日本三大古泉之一，含有鐵質的金泉對於關節非常有益。" },
+            "大鳥大社": { tip: "限量透明御守。", info: "近期社群爆紅，透明御守能映照背景风景，象徵開運勝利。" },
+            "大阪城逛逛（梅花）": { tip: "2月限定梅林。", info: "大阪城二之丸東側有約100種、1270株梅花，是關西地區著名的賞梅勝地。" }
         };
 
         const weatherData = {
             1: { city: "大阪 (KIX)", temps: [8, 12, 11, 9, 7], icon: "fa-cloud-sun" },
-            2: { city: "大阪 (市區)", temps: [7, 13, 13, 10, 8], icon: "fa-sun" },
+            2: { city: "京都 (較冷)", temps: [4, 11, 10, 6, 4], icon: "fa-sun" },
             3: { city: "箕面 (山區)", temps: [4, 9, 8, 5, 3], icon: "fa-cloud" },
             4: { city: "神戶/有馬", temps: [3, 8, 7, 4, 2], icon: "fa-snowflake" },
             5: { city: "堺市/富田林", temps: [6, 12, 11, 8, 6], icon: "fa-sun" },
@@ -133,12 +132,12 @@
         };
 
         const itinerary = {
-            1: [ { time: "11:00", title: "出門", type: "move" }, { time: "12:30", title: "桃園機場 T1 Airasia", type: "spot" }, { time: "15:40", title: "TPE 起飛", type: "flight" }, { time: "19:20", title: "KIX 降落", type: "flight" }, { time: "20:20", title: "關西機場離開搭利木津巴士", type: "bus" }, { time: "21:20", title: "check in大阪新阪急酒店別館", type: "hotel" } ],
-            2: [ { time: "08:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "09:15", title: "大阪城天守閣", type: "spot" }, { time: "10:00", title: "大阪城御座船", type: "spot" }, { time: "10:30", title: "大阪城逛逛", type: "spot" }, { time: "12:30", title: "牛たんの檸檬大阪本店", type: "food" }, { time: "14:00", title: "LOUTRE 大阪店", type: "spot" }, { time: "15:00", title: "通天閣/四大天王/新世界商店街", type: "spot" }, { time: "17:00", title: "HARUKAS 阿倍野展望台", type: "spot" }, { time: "17:30", title: "備案：大阪高島屋", type: "spot" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
-            3: [ { time: "08:00", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:45", title: "勝尾寺", type: "spot" }, { time: "10:45", title: "大瀑布", type: "spot" }, { time: "11:30", title: "瀧安寺", type: "spot" }, { time: "13:00", title: "炸楓葉、足湯、案内所", type: "food" }, { time: "13:30", title: "箕面車站吃飯", type: "food" }, { time: "15:00", title: "梅田阪急逛街", type: "spot" }, { time: "16:00", title: "吉伊卡哇LAND 大阪梅田店", type: "spot" }, { time: "17:00", title: "KITTE大阪", type: "spot" }, { time: "18:00", title: "4F 豊亨 吃飯", type: "food" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
-            4: [ { time: "08:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "10:00", title: "有馬溫泉(有馬案内所)", type: "spot" }, { time: "12:00", title: "有馬午餐", type: "food" }, { time: "15:00", title: "麵包超人", type: "spot" }, { time: "18:00", title: "神戶臨海樂園 umie", type: "spot" }, { time: "20:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
-            5: [ { time: "07:23", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:10", title: "早餐：客美多咖啡 堺鳳店", type: "food" }, { time: "09:00", title: "堺市 大鳥大社：透明御守", type: "spot" }, { time: "11:00", title: "富田林寺內町", type: "spot" }, { time: "12:00", title: "麺坊七福 寺内町店|古民家カフェゆうぷく", type: "food" }, { time: "16:30", title: "梅田", type: "spot" }, { time: "19:00", title: "玄品 大阪 梅田東通", type: "food" }, { time: "21:00", title: "回飯店：大阪新阪急酒店別館", type: "hotel" } ],
-            6: [ { time: "08:00", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:15", title: "Cafe Sunshine", type: "food" }, { time: "09:00", title: "今昔館", type: "spot" }, { time: "10:00", title: "天神筋商店街", type: "spot" }, { time: "11:00", title: "天滿宮", type: "spot" }, { time: "12:00", title: "午餐", type: "food" }, { time: "16:00", title: "大阪新阪急酒店別館離開搭利木津巴士", type: "bus" }, { time: "17:00", title: "關西機場", type: "spot" }, { time: "20:45", title: "KIX 起飛", type: "flight" }, { time: "23:05", title: "降落", type: "flight" } ]
+            1: [ { time: "11:00", title: "出門", type: "move" }, { time: "12:30", title: "桃園機場 T1 Airasia", type: "spot" }, { time: "15:40", title: "搭機(D7 378)", type: "flight" }, { time: "19:20", title: "KIX 降落", type: "flight" }, { time: "20:20", title: "關西機場離開搭利木津巴士", type: "bus" }, { time: "21:20", title: "大阪新阪急酒店別館 (Hotel new Hankyu Osaka Annex)", type: "hotel" } ],
+            2: [ { time: "08:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "10:00", title: "京都 teamlab", type: "spot" }, { time: "13:00", title: "午餐（京都車站）", type: "food" }, { time: "15:00", title: "京都北野天滿宮", type: "spot" }, { time: "18:00", title: "大阪逛街", type: "spot" }, { time: "21:00", title: "大阪新阪急酒店別館 (Hotel new Hankyu Osaka Annex)", type: "hotel" } ],
+            3: [ { time: "08:00", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:45", title: "勝尾寺", type: "spot" }, { time: "10:45", title: "大瀑布", type: "spot" }, { time: "11:30", title: "往下走到瀧安寺", type: "spot" }, { time: "13:00", title: "炸楓葉、足湯、案内所", type: "food" }, { time: "13:30", title: "箕面車站吃飯", type: "food" }, { time: "15:00", title: "梅田阪急逛街", type: "spot" }, { time: "16:00", title: "吉伊卡哇LAND 大阪梅田店", type: "spot" }, { time: "17:00", title: "KITTE大阪", type: "spot" }, { time: "18:00", title: "4F 豊亨 吃飯", type: "food" }, { time: "21:00", title: "大阪新阪急酒店別館 (Hotel new Hankyu Osaka Annex)", type: "hotel" } ],
+            4: [ { time: "08:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "10:00", title: "有馬溫泉(有馬案内所)", type: "spot" }, { time: "12:00", title: "有馬午餐", type: "food" }, { time: "15:00", title: "麵包超人", type: "spot" }, { time: "18:00", title: "神戶臨海樂園 umie", type: "spot" }, { time: "20:00", title: "大阪新阪急酒店別館 (Hotel new Hankyu Osaka Annex)", type: "hotel" } ],
+            5: [ { time: "07:30", title: "大阪新阪急酒店別館", type: "move" }, { time: "08:10", title: "早餐：客美多咖啡 堺鳳店", type: "food" }, { time: "09:00", title: "堺市 大鳥大社", type: "spot" }, { time: "12:00", title: "富田林寺內町", type: "spot" }, { time: "12:30", title: "麺坊七福 寺內町店", type: "food" }, { time: "16:30", title: "梅田", type: "spot" }, { time: "19:00", title: "玄品 大阪 梅田東通", type: "food" }, { time: "21:00", title: "大阪新阪急酒店別館 (Hotel new Hankyu Osaka Annex)", type: "hotel" } ],
+            6: [ { time: "08:00", title: "Cafe Sunshine", type: "food" }, { time: "10:00", title: "大阪城逛逛（梅花）", type: "spot" }, { time: "12:00", title: "心齋橋", type: "spot" }, { time: "13:30", title: "MooKEN", type: "food" }, { time: "14:00", title: "Samoyed Cafe Moffu Shinsaibashi", type: "spot" }, { time: "16:00", title: "大阪新阪急酒店別館離開搭利木津巴士", type: "bus" }, { time: "17:00", title: "關西機場", type: "spot" }, { time: "20:45", title: "KIX 起飛", type: "flight" }, { time: "23:05", title: "桃園機場 T1", type: "flight" } ]
         };
 
         let currentDay = 1;
@@ -146,7 +145,7 @@
         function closeViewer() { document.getElementById('image-viewer').style.display = 'none'; }
         
         function updateUI() {
-            const tabs = ["2/17(一)", "2/18(二)", "2/19(三)", "2/20(四)", "2/21(五)", "2/22(六)"];
+            const tabs = ["2/17(二)", "2/18(三)", "2/19(四)", "2/20(五)", "2/21(六)", "2/22(日)"];
             const container = document.getElementById('day-tabs'); container.innerHTML = "";
             tabs.forEach((day, i) => {
                 const btn = document.createElement('button');
@@ -173,7 +172,7 @@
                 if (idx < items.length - 1 && item.type !== 'flight') {
                     const next = items[idx + 1]; let link = `https://www.google.com/maps/dir/${item.title}/${next.title}/`;
                     const routeKey = `${item.title}->${next.title}`; let summary = transitDetails[routeKey] || `導航往 ${next.title.substring(0,8)}`;
-                    if ((currentDay === 1 && idx >= 4) || (currentDay === 6 && idx >= 6)) {
+                    if ((currentDay === 1 && idx >= 4) || (currentDay === 6 && idx >= 5)) {
                         link = "https://www.kate.co.jp/tcn/timetable/detail/UM"; summary = "利木津巴士：直達關西機場/梅田 (點此查看時刻表)";
                     }
                     list.innerHTML += `<a href="${link}" target="_blank" class="transit-card block">
